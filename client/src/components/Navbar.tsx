@@ -60,27 +60,13 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
             {/* ── Logo ── */}
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer" }}
+              style={{ display: "flex", alignItems: "center", background: "none", border: "none", padding: 0, cursor: "pointer" }}
             >
-              <div style={{
-                width: 36, height: 36,
-                background: "linear-gradient(135deg, #1B6B3A 0%, #22A05A 100%)",
-                borderRadius: 6,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0,
-              }}>
-                <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-                  <path d="M11 2L1 10H4V20H9V14H13V20H18V10H21L11 2Z" fill="white" />
-                </svg>
-              </div>
-              <div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 800, fontSize: 14, color: "white", letterSpacing: "0.07em", lineHeight: 1.1 }}>
-                  PRO MASTER
-                </div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 8.5, color: "#22A05A", letterSpacing: "0.22em", textTransform: "uppercase" }}>
-                  CONTRACTORS
-                </div>
-              </div>
+              <img
+                src="/manus-storage/promaster_logo_white_05712234.png"
+                alt="Pro Master Contractors"
+                style={{ height: 48, width: "auto", objectFit: "contain" }}
+              />
             </button>
 
             {/* ── Desktop nav links ── */}
