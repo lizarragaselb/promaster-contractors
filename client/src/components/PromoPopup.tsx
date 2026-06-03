@@ -1,191 +1,173 @@
 /**
  * PromoPopup — Pro Master Contractors
- * Promotional discount popup with exit-intent / 5s timer trigger
+ * Appears after 5 seconds. Premium navy/emerald design. Self-managed state.
  */
-import { X, Tag, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
+import { X, Tag } from "lucide-react";
+import type { Lang } from "@/pages/Home";
 
 const COPY = {
   en: {
     badge: "Limited Time Offer",
-    headline: "Get 15% OFF",
-    sub: "Your First Carpet Cleaning or Water Extraction Service",
+    title: "Get 15% OFF Your First Service",
+    sub: "New customers only. Valid for Carpet Cleaning or Water Extraction.",
     code: "PROMASTER15",
-    codeLabel: "Use code:",
+    codeLabel: "Use code at checkout:",
     cta: "Claim My Discount",
-    call: "Or Call Now",
-    fine: "Valid for new customers only. Expires soon.",
-    close: "No thanks, I'll pay full price",
+    dismiss: "No thanks, I'll pay full price",
   },
   es: {
     badge: "Oferta por Tiempo Limitado",
-    headline: "Obtén 15% DE DESCUENTO",
-    sub: "En tu Primer Servicio de Limpieza de Alfombras o Extracción de Agua",
+    title: "Obtén 15% de Descuento en Tu Primer Servicio",
+    sub: "Solo para nuevos clientes. Válido para Limpieza de Alfombras o Extracción de Agua.",
     code: "PROMASTER15",
-    codeLabel: "Usa el código:",
+    codeLabel: "Usa el código al reservar:",
     cta: "Reclamar Mi Descuento",
-    call: "O Llama Ahora",
-    fine: "Válido solo para nuevos clientes. Expira pronto.",
-    close: "No gracias, pagaré precio completo",
+    dismiss: "No gracias, pagaré el precio completo",
   },
 };
 
-interface PromoPopupProps {
-  lang: "en" | "es";
-  onClose: () => void;
-}
+interface PromoPopupProps { lang: Lang; }
 
-export default function PromoPopup({ lang, onClose }: PromoPopupProps) {
-  const c = COPY[lang];
+export default function PromoPopup({ lang }: PromoPopupProps) {
   const [visible, setVisible] = useState(false);
   const [copied, setCopied] = useState(false);
+  const c = COPY[lang];
 
   useEffect(() => {
-    // Animate in
-    const t = setTimeout(() => setVisible(true), 50);
-    return () => clearTimeout(t);
+    const alreadySeen = sessionStorage.getItem("promoSeen");
+    if (alreadySeen) return;
+    const timer = setTimeout(() => setVisible(true), 5000);
+    return () => clearTimeout(timer);
   }, []);
 
-  const handleClose = () => {
+  const dismiss = () => {
     setVisible(false);
-    setTimeout(onClose, 300);
+    sessionStorage.setItem("promoSeen", "1");
   };
 
   const copyCode = () => {
-    navigator.clipboard.writeText(c.code).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    navigator.clipboard.writeText(c.code).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const scrollToContact = () => {
-    handleClose();
+    dismiss();
     setTimeout(() => {
       const el = document.querySelector("#contact");
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 72;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
-    }, 350);
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
+    }, 200);
   };
 
+  if (!visible) return null;
+
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      style={{
-        backgroundColor: "rgba(13, 33, 55, 0.85)",
-        backdropFilter: "blur(4px)",
-        opacity: visible ? 1 : 0,
-        transition: "opacity 300ms ease-out",
-      }}
-      onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
-    >
+    <>
+      {/* Backdrop */}
       <div
-        className="relative w-full max-w-md rounded-2xl overflow-hidden"
+        onClick={dismiss}
         style={{
-          boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
-          transform: visible ? "scale(1) translateY(0)" : "scale(0.95) translateY(20px)",
-          transition: "transform 300ms cubic-bezier(0.23, 1, 0.32, 1)",
+          position: "fixed", inset: 0, zIndex: 9998,
+          background: "rgba(11,31,58,0.65)",
+          backdropFilter: "blur(4px)",
         }}
-      >
-        {/* Top orange bar */}
-        <div
-          className="px-8 pt-8 pb-6 text-center"
-          style={{ background: "linear-gradient(135deg, #E67E22 0%, #D35400 100%)" }}
+      />
+
+      {/* Modal */}
+      <div style={{
+        position: "fixed", zIndex: 9999,
+        top: "50%", left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "min(480px, calc(100vw - 32px))",
+        background: "white",
+        borderRadius: 10,
+        overflow: "hidden",
+        boxShadow: "0 32px 80px rgba(11,31,58,0.35)",
+        animation: "popIn 250ms cubic-bezier(0.23,1,0.32,1)",
+      }}>
+        {/* Top accent bar */}
+        <div style={{ height: 4, background: "linear-gradient(90deg, #1A4B84 0%, #22A05A 100%)" }} />
+
+        {/* Close button */}
+        <button
+          onClick={dismiss}
+          style={{
+            position: "absolute", top: 16, right: 16,
+            width: 32, height: 32,
+            background: "rgba(11,31,58,0.07)", border: "none",
+            borderRadius: "50%", cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "background 150ms ease",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(11,31,58,0.14)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(11,31,58,0.07)")}
         >
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4"
-            style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
-          >
-            <Tag size={12} color="white" />
-            <span className="text-xs font-bold text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-              {c.badge}
-            </span>
-          </div>
-          <h2
-            className="font-black text-white"
-            style={{ fontSize: 48, lineHeight: 1, fontFamily: "'Montserrat', sans-serif" }}
-          >
-            {c.headline}
-          </h2>
-          <p
-            className="mt-2 font-semibold text-sm"
-            style={{ color: "rgba(255,255,255,0.9)", fontFamily: "'Montserrat', sans-serif" }}
-          >
-            {c.sub}
-          </p>
-        </div>
+          <X size={16} color="#0B1F3A" />
+        </button>
 
-        {/* Bottom white section */}
-        <div className="bg-white px-8 py-6">
-          {/* Code */}
-          <div
-            className="flex items-center justify-between rounded-xl px-4 py-3 mb-5 cursor-pointer"
-            style={{ backgroundColor: "#F4F6F9", border: "2px dashed #E67E22" }}
-            onClick={copyCode}
-          >
-            <div>
-              <div className="text-xs font-semibold" style={{ color: "#7F8C8D", fontFamily: "'Montserrat', sans-serif" }}>
-                {c.codeLabel}
-              </div>
-              <div className="font-black text-xl tracking-widest" style={{ color: "#1A4B84", fontFamily: "'Montserrat', sans-serif" }}>
-                {c.code}
-              </div>
-            </div>
-            <div
-              className="px-3 py-1.5 rounded text-xs font-bold"
-              style={{ backgroundColor: copied ? "#2E8B57" : "#E67E22", color: "white", fontFamily: "'Montserrat', sans-serif", transition: "background-color 200ms" }}
+        <div style={{ padding: "32px 36px 28px" }}>
+          {/* Badge */}
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 6,
+            padding: "5px 12px",
+            background: "rgba(34,160,90,0.1)",
+            border: "1px solid rgba(34,160,90,0.25)",
+            borderRadius: 3, marginBottom: 20,
+          }}>
+            <Tag size={12} color="#1B6B3A" />
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 11, color: "#1B6B3A", letterSpacing: "0.08em", textTransform: "uppercase" }}>{c.badge}</span>
+          </div>
+
+          {/* Title */}
+          <h2 style={{
+            fontFamily: "'Playfair Display', serif", fontWeight: 800,
+            fontSize: "clamp(20px, 4vw, 26px)",
+            color: "#0B1F3A", lineHeight: 1.2, marginBottom: 12,
+          }}>{c.title}</h2>
+
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 14.5, color: "#5A6B7A", lineHeight: 1.65, marginBottom: 24 }}>{c.sub}</p>
+
+          {/* Code box */}
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 11.5, color: "#5A6B7A", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>{c.codeLabel}</div>
+            <button
+              onClick={copyCode}
+              style={{
+                width: "100%", padding: "14px 20px",
+                background: "#F8F5EF",
+                border: "2px dashed rgba(27,107,58,0.4)",
+                borderRadius: 6, cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+                transition: "border-color 150ms ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#22A05A")}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(27,107,58,0.4)")}
             >
-              {copied ? "✓ Copied!" : "COPY"}
-            </div>
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 800, fontSize: 22, color: "#1A4B84", letterSpacing: "0.12em" }}>{c.code}</span>
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 12, color: copied ? "#1B6B3A" : "#5A6B7A" }}>
+                {copied ? "✓ Copied!" : "Click to copy"}
+              </span>
+            </button>
           </div>
 
-          {/* CTAs */}
-          <button
-            onClick={scrollToContact}
-            className="w-full py-4 rounded-xl font-black text-lg text-white btn-orange mb-3"
-            style={{ fontFamily: "'Montserrat', sans-serif" }}
-          >
+          {/* CTA */}
+          <button onClick={scrollToContact} className="btn-primary" style={{ width: "100%", fontSize: 15, justifyContent: "center" }}>
             {c.cta} →
           </button>
-          <a
-            href="tel:+12145551234"
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm btn-blue"
-            style={{ fontFamily: "'Montserrat', sans-serif" }}
-          >
-            <Phone size={16} />
-            {c.call}: (214) 555-1234
-          </a>
 
-          <p
-            className="text-center text-xs mt-4"
-            style={{ color: "#BDC3C7", fontFamily: "'Montserrat', sans-serif" }}
-          >
-            {c.fine}
-          </p>
-
+          {/* Dismiss */}
           <button
-            onClick={handleClose}
-            className="w-full text-center text-xs mt-2 transition-colors"
-            style={{ color: "#BDC3C7", fontFamily: "'Montserrat', sans-serif" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#7F8C8D")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#BDC3C7")}
-          >
-            {c.close}
-          </button>
+            onClick={dismiss}
+            style={{
+              display: "block", width: "100%", marginTop: 12,
+              fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 12.5,
+              color: "#9AA5B1", background: "none", border: "none", cursor: "pointer",
+              textAlign: "center",
+            }}
+          >{c.dismiss}</button>
         </div>
-
-        {/* Close X */}
-        <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 flex items-center justify-center rounded-full transition-all"
-          style={{ width: 32, height: 32, backgroundColor: "rgba(255,255,255,0.2)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.35)")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.2)")}
-        >
-          <X size={16} color="white" />
-        </button>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,224 +1,233 @@
 /**
  * HeroSection — Pro Master Contractors
- * Full-bleed dark hero with background image, headline, CTAs, trust badges, stats panel
+ * Full-viewport hero. Deep navy overlay on premium AI image.
+ * Playfair Display headline, DM Sans body. Emerald + Navy CTAs.
  */
-import { useEffect, useRef, useState } from "react";
-import { Phone, AlertTriangle, CheckCircle } from "lucide-react";
+import { Phone, AlertTriangle, CheckCircle, ChevronDown } from "lucide-react";
+import type { Lang } from "@/pages/Home";
 
-const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/hero_bg-NCR2DDaJq3Ljj2PmC4mUhC.webp";
+const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/hero_premium-bGPsVQPVhHo4TJrinr4Lpv.webp";
 
 const COPY = {
   en: {
-    badge: "Dallas-Fort Worth's #1 Choice",
-    line1: "Restoration &",
-    line2: "Remodeling Experts.",
-    sub: "Professional Carpet Cleaning, Water Extraction & Complete Remodeling Services — Available 24/7.",
-    cta1: "Call Now — Free Estimate",
+    eyebrow: "Dallas-Fort Worth's Trusted Experts",
+    headline1: "Restoration &",
+    headline2: "Remodeling",
+    headline3: "Excellence.",
+    sub: "Professional water damage restoration, carpet cleaning, and complete remodeling services — available 24/7 across the DFW metroplex.",
+    cta1: "Get a Free Estimate",
     cta2: "24/7 Emergency Line",
-    trust: ["16+ Years Experience", "Licensed & Insured", "Free Estimates", "5-Star Rated"],
+    trust: ["Licensed & Insured", "Free Estimates", "5-Star Rated", "16+ Years Experience"],
     stats: [
-      { val: "16+", label: "Years in Business" },
-      { val: "500+", label: "Projects Completed" },
-      { val: "24/7", label: "Emergency Response" },
-      { val: "5★", label: "Google Rating" },
+      { num: "16+", label: "Years in Business" },
+      { num: "500+", label: "Projects Completed" },
+      { num: "24/7", label: "Emergency Response" },
+      { num: "5★", label: "Google Rating" },
     ],
   },
   es: {
-    badge: "La Opción #1 en Dallas-Fort Worth",
-    line1: "Restauración y",
-    line2: "Expertos en Remodelación.",
-    sub: "Limpieza profesional de alfombras, extracción de agua y servicios completos de remodelación — Disponibles 24/7.",
-    cta1: "Llama Ahora — Estimado Gratis",
-    cta2: "Línea de Emergencia 24/7",
-    trust: ["16+ Años de Experiencia", "Licenciados y Asegurados", "Estimados Gratis", "Calificación 5 Estrellas"],
+    eyebrow: "Los Expertos de Confianza en Dallas-Fort Worth",
+    headline1: "Restauración y",
+    headline2: "Remodelación",
+    headline3: "de Excelencia.",
+    sub: "Servicios profesionales de restauración por daño de agua, limpieza de alfombras y remodelación completa — disponibles 24/7 en todo DFW.",
+    cta1: "Obtener Estimado Gratis",
+    cta2: "Línea de Emergencias 24/7",
+    trust: ["Licenciados y Asegurados", "Estimados Gratis", "Calificación 5 Estrellas", "16+ Años de Experiencia"],
     stats: [
-      { val: "16+", label: "Años en el Negocio" },
-      { val: "500+", label: "Proyectos Completados" },
-      { val: "24/7", label: "Respuesta de Emergencia" },
-      { val: "5★", label: "Calificación en Google" },
+      { num: "16+", label: "Años en el Negocio" },
+      { num: "500+", label: "Proyectos Completados" },
+      { num: "24/7", label: "Respuesta de Emergencia" },
+      { num: "5★", label: "Calificación Google" },
     ],
   },
 };
 
-interface HeroProps { lang: "en" | "es"; }
-
-function useCountUp(target: number, duration = 1800, start = false) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!start) return;
-    let startTime: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [target, duration, start]);
-  return count;
-}
+interface HeroProps { lang: Lang; }
 
 export default function HeroSection({ lang }: HeroProps) {
   const c = COPY[lang];
-  const [statsVisible, setStatsVisible] = useState(false);
-  const statsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setStatsVisible(true); },
-      { threshold: 0.3 }
-    );
-    if (statsRef.current) observer.observe(statsRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  const handleScroll = (id: string) => {
+  const scrollTo = (id: string) => {
     const el = document.querySelector(id);
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 72;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
   };
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center"
-      style={{ paddingTop: 72 }}
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}
     >
       {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${HERO_BG})` }}
-      />
-      {/* Dark overlay — stronger on left for text legibility */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "linear-gradient(105deg, rgba(13,33,55,0.92) 0%, rgba(13,33,55,0.82) 50%, rgba(13,33,55,0.55) 100%)",
-        }}
-      />
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundImage: `url(${HERO_IMG})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }} />
 
-      <div className="container relative z-10 py-16 lg:py-24">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* Left — Text */}
-          <div className="flex-1 max-w-2xl">
-            {/* Badge */}
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded mb-6 fade-in-up"
-              style={{ backgroundColor: "#E67E22", animationDelay: "0ms" }}
-            >
-              <span style={{ fontSize: 14 }}>⭐</span>
-              <span className="font-bold text-white text-sm tracking-wide" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                {c.badge}
-              </span>
-            </div>
+      {/* Deep navy gradient overlay */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(105deg, rgba(11,31,58,0.95) 0%, rgba(11,31,58,0.85) 50%, rgba(11,31,58,0.5) 100%)",
+      }} />
 
-            {/* Headline */}
-            <h1 className="fade-in-up" style={{ animationDelay: "100ms" }}>
-              <span
-                className="block font-black leading-none text-white"
-                style={{ fontSize: "clamp(42px, 6vw, 80px)", fontFamily: "'Montserrat', sans-serif" }}
-              >
-                {c.line1}
-              </span>
-              <span
-                className="block font-black leading-none"
-                style={{ fontSize: "clamp(42px, 6vw, 80px)", color: "#E67E22", fontFamily: "'Montserrat', sans-serif" }}
-              >
-                {c.line2}
-              </span>
-            </h1>
+      {/* Emerald accent top line */}
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0, height: 3,
+        background: "linear-gradient(90deg, #1B6B3A 0%, #22A05A 60%, transparent 100%)",
+      }} />
 
-            {/* Subheadline */}
-            <p
-              className="mt-6 text-lg leading-relaxed fade-in-up"
-              style={{ color: "rgba(255,255,255,0.78)", fontFamily: "'Montserrat', sans-serif", animationDelay: "200ms" }}
-            >
-              {c.sub}
-            </p>
+      {/* Content */}
+      <div className="container" style={{ position: "relative", zIndex: 2, paddingTop: 130, paddingBottom: 90 }}>
+        <div style={{ maxWidth: 660 }}>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8 fade-in-up" style={{ animationDelay: "300ms" }}>
-              <a
-                href="tel:+12145551234"
-                className="flex items-center justify-center gap-3 px-8 py-4 rounded font-bold text-lg text-white btn-orange"
-                style={{ fontFamily: "'Montserrat', sans-serif" }}
-              >
-                <Phone size={20} />
-                {c.cta1}
-              </a>
-              <button
-                onClick={() => handleScroll("#emergency")}
-                className="flex items-center justify-center gap-3 px-8 py-4 rounded font-bold text-lg text-white btn-blue"
-                style={{ fontFamily: "'Montserrat', sans-serif" }}
-              >
-                <AlertTriangle size={20} />
-                {c.cta2}
-              </button>
-            </div>
-
-            {/* Trust badges */}
-            <div className="flex flex-wrap gap-x-6 gap-y-2 mt-8 fade-in-up" style={{ animationDelay: "400ms" }}>
-              {c.trust.map((t) => (
-                <div key={t} className="flex items-center gap-2">
-                  <CheckCircle size={16} style={{ color: "#2E8B57" }} />
-                  <span className="font-semibold text-sm" style={{ color: "#2E8B57", fontFamily: "'Montserrat', sans-serif" }}>
-                    {t}
-                  </span>
-                </div>
-              ))}
-            </div>
+          {/* Eyebrow pill */}
+          <div
+            className="animate-fade-up"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28,
+              padding: "6px 14px",
+              background: "rgba(27,107,58,0.22)",
+              border: "1px solid rgba(34,160,90,0.35)",
+              borderRadius: 3,
+            }}
+          >
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22A05A" }} />
+            <span style={{
+              fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 11.5,
+              color: "#6EE7A0", letterSpacing: "0.12em", textTransform: "uppercase",
+            }}>
+              {c.eyebrow}
+            </span>
           </div>
 
-          {/* Right — Stats Panel */}
-          <div
-            ref={statsRef}
-            className="grid grid-cols-2 gap-4 fade-in-up"
-            style={{ animationDelay: "200ms" }}
+          {/* Headline — Playfair Display */}
+          <h1 className="animate-fade-up" style={{ animationDelay: "80ms", marginBottom: 24 }}>
+            <span style={{
+              display: "block",
+              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontSize: "clamp(42px, 6.5vw, 80px)",
+              color: "white", lineHeight: 1.06,
+            }}>{c.headline1}</span>
+            <span style={{
+              display: "block",
+              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontSize: "clamp(42px, 6.5vw, 80px)",
+              color: "#22A05A", lineHeight: 1.06,
+            }}>{c.headline2}</span>
+            <span style={{
+              display: "block",
+              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontSize: "clamp(42px, 6.5vw, 80px)",
+              color: "white", lineHeight: 1.06,
+            }}>{c.headline3}</span>
+          </h1>
+
+          {/* Sub */}
+          <p
+            className="animate-fade-up"
+            style={{
+              fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
+              fontSize: "clamp(15px, 1.8vw, 17.5px)",
+              color: "rgba(255,255,255,0.68)", lineHeight: 1.75,
+              marginBottom: 32, maxWidth: 540,
+              animationDelay: "160ms",
+            }}
           >
-            {c.stats.map((stat, i) => (
-              <StatCard key={i} val={stat.val} label={stat.label} visible={statsVisible} delay={i * 120} />
+            {c.sub}
+          </p>
+
+          {/* Trust row */}
+          <div
+            className="animate-fade-up"
+            style={{ display: "flex", flexWrap: "wrap", gap: "8px 20px", marginBottom: 36, animationDelay: "220ms" }}
+          >
+            {c.trust.map((t) => (
+              <div key={t} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <CheckCircle size={13} color="#22A05A" />
+                <span style={{
+                  fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 12.5,
+                  color: "rgba(255,255,255,0.65)",
+                }}>{t}</span>
+              </div>
             ))}
           </div>
+
+          {/* CTAs */}
+          <div
+            className="animate-fade-up"
+            style={{ display: "flex", flexWrap: "wrap", gap: 12, animationDelay: "280ms" }}
+          >
+            <button onClick={() => scrollTo("#contact")} className="btn-emerald" style={{ fontSize: 15, padding: "14px 28px" }}>
+              <Phone size={16} />
+              {c.cta1}
+            </button>
+            <button onClick={() => scrollTo("#emergency")} className="btn-outline-white" style={{ fontSize: 15, padding: "14px 28px" }}>
+              <AlertTriangle size={16} />
+              {c.cta2}
+            </button>
+          </div>
+        </div>
+
+        {/* Stats bar */}
+        <div
+          className="animate-fade-up"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            marginTop: 64,
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 6,
+            overflow: "hidden",
+            maxWidth: 660,
+            animationDelay: "360ms",
+          }}
+        >
+          {c.stats.map((s, i) => (
+            <div
+              key={i}
+              style={{
+                padding: "20px 12px",
+                textAlign: "center",
+                borderRight: i < 3 ? "1px solid rgba(255,255,255,0.07)" : "none",
+              }}
+            >
+              <div style={{
+                fontFamily: "'Playfair Display', serif", fontWeight: 800,
+                fontSize: "clamp(22px, 3vw, 30px)",
+                color: "#22A05A", lineHeight: 1, marginBottom: 5,
+              }}>{s.num}</div>
+              <div style={{
+                fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
+                fontSize: 11, color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em",
+              }}>{s.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Bottom scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-        <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.3)" }} />
-        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "#E67E22" }} />
-      </div>
+      {/* Scroll cue */}
+      <button
+        onClick={() => scrollTo("#services")}
+        style={{
+          position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)",
+          background: "none", border: "none", color: "rgba(255,255,255,0.35)",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+          cursor: "pointer", zIndex: 2,
+        }}
+      >
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9.5, letterSpacing: "0.16em", textTransform: "uppercase" }}>Scroll</span>
+        <ChevronDown size={15} />
+      </button>
     </section>
-  );
-}
-
-function StatCard({ val, label, visible, delay }: { val: string; label: string; visible: boolean; delay: number }) {
-  return (
-    <div
-      className="flex flex-col items-center justify-center p-6 rounded-xl"
-      style={{
-        backgroundColor: "rgba(255,255,255,0.08)",
-        border: "1px solid rgba(255,255,255,0.12)",
-        backdropFilter: "blur(8px)",
-        minWidth: 140,
-        opacity: visible ? 1 : 0,
-        transform: visible ? "scale(1)" : "scale(0.9)",
-        transition: `opacity 500ms ease-out ${delay}ms, transform 500ms cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
-      }}
-    >
-      <span
-        className="font-black"
-        style={{ fontSize: 44, color: "#E67E22", lineHeight: 1, fontFamily: "'Montserrat', sans-serif" }}
-      >
-        {val}
-      </span>
-      <span
-        className="text-center font-medium mt-2 text-sm"
-        style={{ color: "rgba(255,255,255,0.75)", fontFamily: "'Montserrat', sans-serif" }}
-      >
-        {label}
-      </span>
-    </div>
   );
 }

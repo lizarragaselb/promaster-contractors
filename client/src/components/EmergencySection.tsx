@@ -1,119 +1,165 @@
 /**
  * EmergencySection — Pro Master Contractors
- * Dark urgent banner with big orange CTA
+ * Deep navy urgent section. Large phone CTA. Emerald accent.
+ * Playfair Display + DM Sans. Navy + Emerald palette.
  */
-import { Phone, Zap, Shield, FileText } from "lucide-react";
+import { Phone, Clock, Shield, Zap } from "lucide-react";
+import type { Lang } from "@/pages/Home";
 
 const COPY = {
   en: {
-    headline: "Water Damage Emergency?",
-    sub: "We respond FAST — 24 hours a day, 7 days a week.",
-    body: "Every minute counts. The faster we respond, the less damage to your property.",
-    points: [
-      { icon: Zap, text: "Average response time: Under 60 minutes" },
-      { icon: Shield, text: "Fully licensed & insured technicians" },
-      { icon: FileText, text: "We work directly with your insurance company" },
-    ],
+    label: "Always Available",
+    title: "Water Damage Doesn't\nWait. Neither Do We.",
+    sub: "Every minute counts when water damage strikes. Our certified technicians are dispatched within 60 minutes — 24 hours a day, 7 days a week, 365 days a year.",
     cta: "Call Emergency Line Now",
-    fine: "Available 24/7 — No extra charge for nights & weekends",
+    phone: "(214) 555-1234",
+    note: "Free assessment — No obligation",
+    features: [
+      { icon: Zap, title: "60-Min Response", desc: "Technicians on-site within 60 minutes of your call" },
+      { icon: Clock, title: "24/7/365 Availability", desc: "Nights, weekends, and holidays — we're always on" },
+      { icon: Shield, title: "Insurance Approved", desc: "We work directly with all major insurance carriers" },
+    ],
   },
   es: {
-    headline: "¿Emergencia por Daño de Agua?",
-    sub: "Respondemos RÁPIDO — 24 horas al día, 7 días a la semana.",
-    body: "Cada minuto cuenta. Cuanto más rápido respondemos, menos daño a tu propiedad.",
-    points: [
-      { icon: Zap, text: "Tiempo de respuesta promedio: Menos de 60 minutos" },
-      { icon: Shield, text: "Técnicos completamente licenciados y asegurados" },
-      { icon: FileText, text: "Trabajamos directamente con tu compañía de seguros" },
+    label: "Siempre Disponibles",
+    title: "El Daño por Agua\nNo Espera. Nosotros Tampoco.",
+    sub: "Cada minuto cuenta cuando el agua daña tu propiedad. Nuestros técnicos certificados son despachados en 60 minutos — 24 horas al día, 7 días a la semana.",
+    cta: "Llamar Línea de Emergencia",
+    phone: "(214) 555-1234",
+    note: "Evaluación gratuita — Sin compromiso",
+    features: [
+      { icon: Zap, title: "Respuesta en 60 Min", desc: "Técnicos en sitio dentro de 60 minutos de tu llamada" },
+      { icon: Clock, title: "Disponibilidad 24/7/365", desc: "Noches, fines de semana y feriados — siempre disponibles" },
+      { icon: Shield, title: "Aprobado por Seguros", desc: "Trabajamos directamente con todas las aseguradoras principales" },
     ],
-    cta: "Llamar a la Línea de Emergencia",
-    fine: "Disponible 24/7 — Sin cargo extra por noches y fines de semana",
   },
 };
 
-interface EmergencyProps { lang: "en" | "es"; }
+interface EmergencyProps { lang: Lang; }
 
 export default function EmergencySection({ lang }: EmergencyProps) {
   const c = COPY[lang];
-  return (
-    <section id="emergency" style={{ backgroundColor: "#0D2137", padding: "80px 0" }}>
-      <div className="container">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          {/* Left */}
-          <div className="flex-1 fade-in-up">
-            <div className="flex items-center gap-3 mb-4">
-              <span style={{ fontSize: 36 }}>🚨</span>
-              <h2
-                className="font-black"
-                style={{ fontSize: "clamp(28px, 3.5vw, 48px)", color: "white", fontFamily: "'Montserrat', sans-serif" }}
-              >
-                {c.headline}
-              </h2>
-            </div>
-            <p
-              className="text-xl font-bold mb-3"
-              style={{ color: "rgba(255,255,255,0.85)", fontFamily: "'Montserrat', sans-serif" }}
-            >
-              {c.sub}
-            </p>
-            <p
-              className="mb-8"
-              style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'Montserrat', sans-serif" }}
-            >
-              {c.body}
-            </p>
-            <div className="space-y-4">
-              {c.points.map((pt, i) => {
-                const Icon = pt.icon;
-                return (
-                  <div key={i} className="flex items-center gap-3">
-                    <div
-                      className="flex-shrink-0 flex items-center justify-center rounded-full"
-                      style={{ width: 36, height: 36, backgroundColor: "rgba(46,139,87,0.2)", border: "1px solid #2E8B57" }}
-                    >
-                      <Icon size={16} color="#2E8B57" />
-                    </div>
-                    <span
-                      className="font-semibold"
-                      style={{ color: "#2E8B57", fontFamily: "'Montserrat', sans-serif" }}
-                    >
-                      {pt.text}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
 
-          {/* Right — CTA */}
-          <div className="flex flex-col items-center gap-4 fade-in-up" style={{ animationDelay: "150ms" }}>
+  return (
+    <section
+      id="emergency"
+      style={{
+        background: "linear-gradient(135deg, #0B1F3A 0%, #112D4E 60%, #0D3320 100%)",
+        padding: "100px 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Dot texture */}
+      <div style={{
+        position: "absolute", inset: 0, opacity: 0.04,
+        backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+        backgroundSize: "32px 32px",
+      }} />
+      {/* Emerald glow */}
+      <div style={{
+        position: "absolute", top: -100, right: -100,
+        width: 400, height: 400,
+        background: "radial-gradient(circle, rgba(27,107,58,0.2) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <div style={{
+          display: "grid",
+          gap: 64,
+          alignItems: "center",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        }}>
+          {/* Left */}
+          <div>
+            <span className="section-label" style={{ display: "block", marginBottom: 16, color: "#22A05A" }}>{c.label}</span>
+            <h2 style={{
+              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontSize: "clamp(28px, 4vw, 52px)",
+              color: "white", lineHeight: 1.1, marginBottom: 24,
+              whiteSpace: "pre-line",
+            }}>{c.title}</h2>
+            <span className="gold-line" style={{ display: "block", marginBottom: 24 }} />
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
+              fontSize: 16.5, color: "rgba(255,255,255,0.62)", lineHeight: 1.75,
+              marginBottom: 40,
+            }}>{c.sub}</p>
+
+            {/* Big phone CTA */}
             <a
               href="tel:+12145551234"
-              className="flex items-center gap-3 px-10 py-5 rounded-xl font-black text-xl text-white btn-orange"
-              style={{ fontFamily: "'Montserrat', sans-serif", minWidth: 320, justifyContent: "center" }}
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 14,
+                padding: "18px 32px",
+                background: "#22A05A", color: "white",
+                borderRadius: 5, textDecoration: "none",
+                transition: "all 160ms ease",
+                border: "2px solid #22A05A",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#1B6B3A";
+                e.currentTarget.style.borderColor = "#1B6B3A";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 12px 32px rgba(34,160,90,0.35)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#22A05A";
+                e.currentTarget.style.borderColor = "#22A05A";
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.boxShadow = "none";
+              }}
             >
-              <Phone size={24} />
-              {c.cta}
-            </a>
-            <p
-              className="text-sm text-center"
-              style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Montserrat', sans-serif" }}
-            >
-              {c.fine}
-            </p>
-            {/* Pulsing ring animation */}
-            <div className="relative flex items-center justify-center mt-2">
-              <div
-                className="absolute rounded-full animate-ping"
-                style={{ width: 64, height: 64, backgroundColor: "rgba(230,126,34,0.2)" }}
-              />
-              <div
-                className="relative flex items-center justify-center rounded-full"
-                style={{ width: 56, height: 56, backgroundColor: "#E67E22" }}
-              >
-                <Phone size={24} color="white" />
+              <div style={{
+                width: 44, height: 44,
+                background: "rgba(255,255,255,0.15)", borderRadius: "50%",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <Phone size={20} color="white" />
               </div>
-            </div>
+              <div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 800, fontSize: 20, color: "white", lineHeight: 1.1 }}>{c.phone}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 12, color: "rgba(255,255,255,0.75)", letterSpacing: "0.04em" }}>{c.cta}</div>
+              </div>
+            </a>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12.5, color: "rgba(255,255,255,0.38)", marginTop: 12 }}>{c.note}</p>
+          </div>
+
+          {/* Right — Feature cards */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {c.features.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex", alignItems: "flex-start", gap: 18,
+                    padding: "24px",
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    borderRadius: 6,
+                    transition: "background 200ms ease",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}
+                >
+                  <div style={{
+                    width: 44, height: 44, flexShrink: 0,
+                    background: "rgba(34,160,90,0.15)",
+                    border: "1px solid rgba(34,160,90,0.25)",
+                    borderRadius: 6,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <Icon size={20} color="#22A05A" />
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 15, color: "white", marginBottom: 4 }}>{f.title}</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 13.5, color: "rgba(255,255,255,0.48)", lineHeight: 1.55 }}>{f.desc}</div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

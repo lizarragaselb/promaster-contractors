@@ -1,37 +1,24 @@
 /**
  * Navbar — Pro Master Contractors
- * Sticky, darkens on scroll, mobile hamburger menu, EN/ES toggle
+ * Premium sticky nav. Transparent → deep navy on scroll.
+ * DM Sans typography. EN/ES pill toggle. Emerald CTA.
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Menu, X, Phone } from "lucide-react";
-
-const NAV_ITEMS = {
-  en: [
-    { label: "Home", href: "#home" },
-    { label: "Services", href: "#services" },
-    { label: "24/7 Emergency", href: "#emergency", highlight: true },
-    { label: "About Us", href: "#about" },
-    { label: "Portfolio", href: "#portfolio" },
-    { label: "Reviews", href: "#reviews" },
-    { label: "Contact Us", href: "#contact" },
-  ],
-  es: [
-    { label: "Inicio", href: "#home" },
-    { label: "Servicios", href: "#services" },
-    { label: "Emergencias 24/7", href: "#emergency", highlight: true },
-    { label: "Nosotros", href: "#about" },
-    { label: "Portafolio", href: "#portfolio" },
-    { label: "Reseñas", href: "#reviews" },
-    { label: "Contáctanos", href: "#contact" },
-  ],
-};
+import type { Lang } from "@/pages/Home";
 
 interface NavbarProps {
-  lang: "en" | "es";
-  toggleLang: () => void;
+  lang: Lang;
+  setLang: (l: Lang) => void;
 }
 
-export default function Navbar({ lang, toggleLang }: NavbarProps) {
+const NAV_LINKS = {
+  en: ["Services", "Emergency", "About", "Portfolio", "Reviews", "Contact"],
+  es: ["Servicios", "Emergencias", "Nosotros", "Portafolio", "Reseñas", "Contacto"],
+};
+const ANCHORS = ["#services", "#emergency", "#about", "#portfolio", "#reviews", "#contact"];
+
+export default function Navbar({ lang, setLang }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -41,168 +28,173 @@ export default function Navbar({ lang, toggleLang }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const scrollTo = useCallback((href: string) => {
     setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      const offset = 72;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  };
+    setTimeout(() => {
+      const el = document.querySelector(href);
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 72;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    }, 80);
+  }, []);
 
-  const items = NAV_ITEMS[lang];
+  const links = NAV_LINKS[lang];
 
   return (
     <>
-      <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      <header
         style={{
-          backgroundColor: scrolled ? "rgba(13, 33, 55, 0.98)" : "#1A4B84",
-          boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.3)" : "none",
-          backdropFilter: scrolled ? "blur(8px)" : "none",
+          position: "fixed",
+          top: 0, left: 0, right: 0,
+          zIndex: 50,
+          transition: "background 300ms ease, box-shadow 300ms ease, backdrop-filter 300ms ease",
+          background: scrolled ? "rgba(11,31,58,0.97)" : "transparent",
+          boxShadow: scrolled ? "0 1px 32px rgba(0,0,0,0.3)" : "none",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
         }}
       >
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between h-[72px]">
-            {/* Logo */}
-            <a
-              href="#home"
-              onClick={(e) => { e.preventDefault(); handleNavClick("#home"); }}
-              className="flex items-center gap-3 group"
+        <div className="container">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
+
+            {/* ── Logo ── */}
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", padding: 0, cursor: "pointer" }}
             >
-              <div
-                className="flex items-center justify-center rounded-lg"
-                style={{
-                  width: 44,
-                  height: 44,
-                  background: "linear-gradient(135deg, #E67E22 0%, #D35400 100%)",
-                }}
-              >
-                <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-                  <path d="M13 3L2 12H5V22H11V16H15V22H21V12H24L13 3Z" fill="white" />
-                  <path d="M9 22V17H17V22" stroke="white" strokeWidth="1.5" fill="none" />
+              <div style={{
+                width: 36, height: 36,
+                background: "linear-gradient(135deg, #1B6B3A 0%, #22A05A 100%)",
+                borderRadius: 6,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0,
+              }}>
+                <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
+                  <path d="M11 2L1 10H4V20H9V14H13V20H18V10H21L11 2Z" fill="white" />
                 </svg>
               </div>
               <div>
-                <div
-                  className="font-black leading-none tracking-tight"
-                  style={{ fontSize: 17, color: "white", fontFamily: "'Montserrat', sans-serif" }}
-                >
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 800, fontSize: 14, color: "white", letterSpacing: "0.07em", lineHeight: 1.1 }}>
                   PRO MASTER
                 </div>
-                <div
-                  className="font-medium tracking-widest uppercase"
-                  style={{ fontSize: 9, color: "#E67E22", letterSpacing: "0.18em" }}
-                >
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 8.5, color: "#22A05A", letterSpacing: "0.22em", textTransform: "uppercase" }}>
                   CONTRACTORS
                 </div>
               </div>
-            </a>
+            </button>
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-1">
-              {items.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                  className="px-3 py-2 rounded text-sm font-semibold transition-all duration-150"
+            {/* ── Desktop nav links ── */}
+            <nav style={{ display: "flex", alignItems: "center", gap: 2 }} className="hidden lg:flex">
+              {links.map((link, i) => (
+                <button
+                  key={link}
+                  onClick={() => scrollTo(ANCHORS[i])}
                   style={{
-                    color: item.highlight ? "#E67E22" : "rgba(255,255,255,0.88)",
-                    fontFamily: "'Montserrat', sans-serif",
+                    background: "none", border: "none", cursor: "pointer",
+                    fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 13.5,
+                    color: "rgba(255,255,255,0.78)",
+                    padding: "6px 13px", borderRadius: 4,
+                    transition: "color 150ms, background 150ms",
+                    letterSpacing: "0.01em",
                   }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.color = item.highlight ? "#F39C12" : "white";
-                    (e.target as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.color = item.highlight ? "#E67E22" : "rgba(255,255,255,0.88)";
-                    (e.target as HTMLElement).style.backgroundColor = "transparent";
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = "white"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255,255,255,0.78)"; e.currentTarget.style.background = "none"; }}
                 >
-                  {item.highlight && "🚨 "}{item.label}
-                </a>
+                  {link}
+                </button>
               ))}
-            </div>
+            </nav>
 
-            {/* Right side: lang toggle + call button */}
-            <div className="hidden lg:flex items-center gap-3">
-              <button
-                onClick={toggleLang}
-                className="px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-150"
-                style={{
-                  borderColor: "#2E8B57",
-                  color: "white",
-                  backgroundColor: lang === "es" ? "#2E8B57" : "transparent",
-                  fontFamily: "'Montserrat', sans-serif",
-                }}
-              >
-                {lang === "en" ? "EN | ES" : "ES | EN"}
-              </button>
+            {/* ── Right actions ── */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              {/* Lang pill */}
+              <div style={{ display: "flex", background: "rgba(255,255,255,0.1)", borderRadius: 20, padding: 2 }}>
+                {(["en", "es"] as Lang[]).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLang(l)}
+                    style={{
+                      background: lang === l ? "white" : "transparent",
+                      color: lang === l ? "#0B1F3A" : "rgba(255,255,255,0.65)",
+                      border: "none", borderRadius: 16,
+                      padding: "3px 10px",
+                      fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 10.5,
+                      letterSpacing: "0.06em", textTransform: "uppercase",
+                      transition: "all 150ms ease", cursor: "pointer",
+                    }}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+
+              {/* Call CTA */}
               <a
                 href="tel:+12145551234"
-                className="flex items-center gap-2 px-4 py-2 rounded font-bold text-sm transition-all duration-150 btn-orange"
-                style={{ fontFamily: "'Montserrat', sans-serif" }}
+                className="btn-emerald hidden lg:inline-flex"
+                style={{ padding: "8px 16px", fontSize: 13, gap: 6, borderRadius: 4 }}
               >
-                <Phone size={15} />
-                {lang === "en" ? "Call Now" : "Llamar"}
+                <Phone size={13} />
+                (214) 555-1234
               </a>
-            </div>
 
-            {/* Mobile hamburger */}
-            <button
-              className="lg:hidden p-2 rounded"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              style={{ color: "white" }}
-            >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="lg:hidden"
+                style={{
+                  background: "rgba(255,255,255,0.1)", border: "none",
+                  borderRadius: 6, padding: 8, color: "white",
+                  display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+                }}
+              >
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Menu */}
-        {mobileOpen && (
-          <div
-            className="lg:hidden border-t"
-            style={{ backgroundColor: "#0D2137", borderColor: "rgba(255,255,255,0.1)" }}
+      {/* ── Mobile drawer ── */}
+      <div
+        style={{
+          position: "fixed", top: 72, left: 0, right: 0, zIndex: 49,
+          background: "rgba(11,31,58,0.98)", backdropFilter: "blur(16px)",
+          transform: mobileOpen ? "translateY(0)" : "translateY(-110%)",
+          transition: "transform 280ms cubic-bezier(0.23,1,0.32,1)",
+          borderBottom: "1px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        <div className="container py-5">
+          <nav style={{ display: "flex", flexDirection: "column" }}>
+            {links.map((link, i) => (
+              <button
+                key={link}
+                onClick={() => scrollTo(ANCHORS[i])}
+                style={{
+                  background: "none", border: "none", cursor: "pointer",
+                  fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 15,
+                  color: "rgba(255,255,255,0.82)", padding: "13px 0", textAlign: "left",
+                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  transition: "color 150ms",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#22A05A")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.82)")}
+              >
+                {link}
+              </button>
+            ))}
+          </nav>
+          <a
+            href="tel:+12145551234"
+            className="btn-emerald"
+            style={{ marginTop: 18, width: "100%", justifyContent: "center", borderRadius: 4 }}
           >
-            <div className="px-4 py-3 flex flex-col gap-1">
-              {items.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                  className="px-4 py-3 rounded font-semibold text-sm transition-colors"
-                  style={{
-                    color: item.highlight ? "#E67E22" : "rgba(255,255,255,0.9)",
-                    fontFamily: "'Montserrat', sans-serif",
-                  }}
-                >
-                  {item.highlight && "🚨 "}{item.label}
-                </a>
-              ))}
-              <div className="flex gap-3 mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-                <button
-                  onClick={toggleLang}
-                  className="flex-1 py-2 rounded font-bold text-sm border"
-                  style={{ borderColor: "#2E8B57", color: "white", fontFamily: "'Montserrat', sans-serif" }}
-                >
-                  {lang === "en" ? "EN | ES" : "ES | EN"}
-                </button>
-                <a
-                  href="tel:+12145551234"
-                  className="flex-1 flex items-center justify-center gap-2 py-2 rounded font-bold text-sm btn-orange"
-                  style={{ fontFamily: "'Montserrat', sans-serif" }}
-                >
-                  <Phone size={14} />
-                  {lang === "en" ? "Call Now" : "Llamar"}
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+            <Phone size={15} />
+            {lang === "en" ? "Call Now — Free Estimate" : "Llamar Ahora — Estimado Gratis"}
+          </a>
+        </div>
+      </div>
     </>
   );
 }

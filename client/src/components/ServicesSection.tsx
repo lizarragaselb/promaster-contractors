@@ -1,154 +1,213 @@
 /**
  * ServicesSection — Pro Master Contractors
- * 3 service cards: Water Damage, Carpet Care, Remodeling
+ * 3 premium service cards on cream background.
+ * Playfair Display headings, DM Sans body. Navy + Emerald palette.
  */
-import { Droplets, Home, Hammer, ArrowRight } from "lucide-react";
+import { Droplets, Layers, Home, CheckCircle, ArrowRight } from "lucide-react";
+import type { Lang } from "@/pages/Home";
+
+const WATER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/water_premium-kgrC2mUda8ijx3pyug5jZs.webp";
+const CARPET_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/carpet_premium-HgHpcsxaZS2rEFX4iViYhF.webp";
+const REMODEL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/remodel_premium-SeFGZWU6ym42djYpnzqELJ.webp";
 
 const COPY = {
   en: {
-    title: "Our Services",
-    subtitle: "Everything your property needs — under one roof.",
-    cards: [
+    label: "What We Do",
+    title: "Complete Property Care,\nUnder One Roof.",
+    sub: "From emergency water extraction to full kitchen remodels — Pro Master handles it all with certified technicians and a satisfaction guarantee.",
+    services: [
       {
         icon: Droplets,
+        img: WATER_IMG,
+        color: "#1A4B84",
+        tag: "Emergency Available",
         title: "Water Damage & Restoration",
-        items: ["24/7 Water Extraction", "Rapid Structural Drying", "Dehumidifying & Mold Prevention", "Insurance Claim Assistance"],
-        cta: "Learn More",
+        desc: "Rapid response water extraction, structural drying, mold prevention, and full restoration. We work directly with your insurance company.",
+        points: ["24/7 Water Extraction", "Structural Drying", "Mold Prevention", "Insurance Claim Assistance"],
+        cta: "Get Emergency Help",
+        anchor: "#emergency",
+      },
+      {
+        icon: Layers,
+        img: CARPET_IMG,
+        color: "#1B6B3A",
+        tag: "Most Popular",
+        title: "Professional Carpet Care",
+        desc: "Deep soil extraction, pet stain & odor removal, carpet repair and restretching. Commercial and residential.",
+        points: ["Deep Soil Extraction", "Pet Stain & Odor Removal", "Carpet Repair & Restretching", "Commercial Cleaning"],
+        cta: "Schedule Cleaning",
+        anchor: "#contact",
       },
       {
         icon: Home,
-        title: "Professional Carpet Care",
-        items: ["Deep Soil Extraction", "Pet Stain & Odor Removal", "Carpet Repair & Restretching", "Commercial Carpet Cleaning"],
-        cta: "Learn More",
-      },
-      {
-        icon: Hammer,
+        img: REMODEL_IMG,
+        color: "#C9A84C",
+        tag: "Full Service",
         title: "Interior & Exterior Remodeling",
-        items: ["Kitchen & Bathroom Remodel", "Flooring Installation", "Painting — Interior & Exterior", "Property Make-Ready Services"],
-        cta: "Learn More",
+        desc: "Kitchen and bathroom remodels, flooring installation, interior and exterior painting, and full property make-ready services.",
+        points: ["Kitchen & Bathroom Remodel", "Flooring Installation", "Interior & Exterior Painting", "Property Make-Ready"],
+        cta: "Request a Quote",
+        anchor: "#contact",
       },
     ],
   },
   es: {
-    title: "Nuestros Servicios",
-    subtitle: "Todo lo que tu propiedad necesita — bajo un mismo techo.",
-    cards: [
+    label: "Lo Que Hacemos",
+    title: "Cuidado Completo\nde tu Propiedad.",
+    sub: "Desde extracción de agua de emergencia hasta remodelaciones completas — Pro Master lo maneja todo con técnicos certificados y garantía de satisfacción.",
+    services: [
       {
         icon: Droplets,
+        img: WATER_IMG,
+        color: "#1A4B84",
+        tag: "Emergencias Disponibles",
         title: "Daño por Agua y Restauración",
-        items: ["Extracción de Agua 24/7", "Secado Estructural Rápido", "Deshumidificación y Prevención de Moho", "Asistencia con Reclamaciones de Seguro"],
-        cta: "Ver Más",
+        desc: "Extracción de agua de respuesta rápida, secado estructural, prevención de moho y restauración completa. Trabajamos con tu aseguradora.",
+        points: ["Extracción de Agua 24/7", "Secado Estructural", "Prevención de Moho", "Asistencia con Seguro"],
+        cta: "Ayuda de Emergencia",
+        anchor: "#emergency",
+      },
+      {
+        icon: Layers,
+        img: CARPET_IMG,
+        color: "#1B6B3A",
+        tag: "Más Popular",
+        title: "Limpieza Profesional de Alfombras",
+        desc: "Extracción profunda, eliminación de manchas y olores de mascotas, reparación y estiramiento de alfombras.",
+        points: ["Extracción Profunda", "Eliminación de Manchas y Olores", "Reparación y Estiramiento", "Limpieza Comercial"],
+        cta: "Programar Limpieza",
+        anchor: "#contact",
       },
       {
         icon: Home,
-        title: "Cuidado Profesional de Alfombras",
-        items: ["Extracción Profunda de Suciedad", "Eliminación de Manchas y Olores de Mascotas", "Reparación y Reestiramiento de Alfombras", "Limpieza Comercial de Alfombras"],
-        cta: "Ver Más",
-      },
-      {
-        icon: Hammer,
+        img: REMODEL_IMG,
+        color: "#C9A84C",
+        tag: "Servicio Completo",
         title: "Remodelación Interior y Exterior",
-        items: ["Remodelación de Cocina y Baño", "Instalación de Pisos", "Pintura — Interior y Exterior", "Servicios de Preparación de Propiedad"],
-        cta: "Ver Más",
+        desc: "Remodelación de cocinas y baños, instalación de pisos, pintura interior y exterior, y preparación completa de propiedades.",
+        points: ["Remodelación de Cocina y Baño", "Instalación de Pisos", "Pintura Interior y Exterior", "Preparación de Propiedad"],
+        cta: "Solicitar Cotización",
+        anchor: "#contact",
       },
     ],
   },
 };
 
-interface ServicesProps { lang: "en" | "es"; }
+interface ServicesProps { lang: Lang; }
 
 export default function ServicesSection({ lang }: ServicesProps) {
   const c = COPY[lang];
 
-  const handleContact = () => {
-    const el = document.querySelector("#contact");
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 72;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+  const scrollTo = (anchor: string) => {
+    const el = document.querySelector(anchor);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
   };
 
   return (
-    <section id="services" style={{ backgroundColor: "#F4F6F9", padding: "96px 0" }}>
+    <section id="services" style={{ backgroundColor: "#F8F5EF", padding: "100px 0" }}>
       <div className="container">
         {/* Header */}
-        <div className="text-center mb-16 fade-in-up">
-          <h2
-            className="font-black"
-            style={{ fontSize: "clamp(32px, 4vw, 52px)", color: "#1A4B84", fontFamily: "'Montserrat', sans-serif", marginBottom: 16 }}
-          >
-            {c.title}
-          </h2>
-          <p
-            className="text-lg max-w-xl mx-auto"
-            style={{ color: "#5D6D7E", fontFamily: "'Montserrat', sans-serif" }}
-          >
-            {c.subtitle}
-          </p>
-          <div className="flex justify-center mt-4">
-            <div className="h-1 w-16 rounded-full" style={{ backgroundColor: "#E67E22" }} />
+        <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
+          <h2 style={{
+            fontFamily: "'Playfair Display', serif", fontWeight: 800,
+            fontSize: "clamp(30px, 4vw, 52px)",
+            color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20,
+            whiteSpace: "pre-line",
+          }}>{c.title}</h2>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+            <span className="gold-line" />
           </div>
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
+            fontSize: 16.5, color: "#5A6B7A", lineHeight: 1.7,
+            maxWidth: 580, margin: "0 auto",
+          }}>{c.sub}</p>
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {c.cards.map((card, i) => {
-            const Icon = card.icon;
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28 }}>
+          {c.services.map((svc, i) => {
+            const Icon = svc.icon;
             return (
               <div
                 key={i}
-                className="service-card fade-in-up bg-white rounded-xl overflow-hidden"
+                className="service-card"
                 style={{
-                  boxShadow: "0 4px 24px rgba(26,75,132,0.08)",
-                  animationDelay: `${i * 120}ms`,
-                  border: "1px solid rgba(26,75,132,0.06)",
+                  background: "white", borderRadius: 8, overflow: "hidden",
+                  boxShadow: "0 4px 24px rgba(11,31,58,0.07)",
+                  border: "1px solid rgba(11,31,58,0.06)",
+                  display: "flex", flexDirection: "column",
                 }}
               >
-                {/* Card header */}
-                <div
-                  className="p-8 pb-6"
-                  style={{ borderBottom: "3px solid #E67E22" }}
-                >
-                  <div
-                    className="flex items-center justify-center rounded-xl mb-5"
-                    style={{ width: 60, height: 60, backgroundColor: "#1A4B84" }}
-                  >
-                    <Icon size={28} color="white" />
+                {/* Image */}
+                <div style={{ position: "relative", height: 200, overflow: "hidden" }}>
+                  <img
+                    src={svc.img}
+                    alt={svc.title}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 400ms ease" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  />
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(to bottom, transparent 40%, rgba(11,31,58,0.65) 100%)",
+                  }} />
+                  <div style={{
+                    position: "absolute", top: 14, left: 14,
+                    background: svc.color, color: "white",
+                    padding: "4px 10px", borderRadius: 3,
+                    fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 10.5,
+                    letterSpacing: "0.08em", textTransform: "uppercase",
+                  }}>{svc.tag}</div>
+                  <div style={{
+                    position: "absolute", bottom: 14, right: 14,
+                    width: 40, height: 40,
+                    background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)",
+                    borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                  }}>
+                    <Icon size={20} color="white" />
                   </div>
-                  <h3
-                    className="font-black text-xl leading-tight"
-                    style={{ color: "#1A4B84", fontFamily: "'Montserrat', sans-serif" }}
-                  >
-                    {card.title}
-                  </h3>
                 </div>
 
-                {/* Items */}
-                <div className="p-8 pt-6">
-                  <ul className="space-y-3 mb-8">
-                    {card.items.map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <div
-                          className="mt-1 flex-shrink-0 rounded-full"
-                          style={{ width: 8, height: 8, backgroundColor: "#2E8B57", marginTop: 7 }}
-                        />
-                        <span
-                          className="text-sm font-medium"
-                          style={{ color: "#2C3E50", fontFamily: "'Montserrat', sans-serif" }}
-                        >
-                          {item}
-                        </span>
+                {/* Body */}
+                <div style={{ padding: "28px 28px 24px", flex: 1, display: "flex", flexDirection: "column" }}>
+                  <h3 style={{
+                    fontFamily: "'Playfair Display', serif", fontWeight: 700,
+                    fontSize: 20, color: "#0B1F3A", marginBottom: 10, lineHeight: 1.25,
+                  }}>{svc.title}</h3>
+                  <p style={{
+                    fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
+                    fontSize: 14.5, color: "#5A6B7A", lineHeight: 1.65, marginBottom: 18,
+                  }}>{svc.desc}</p>
+                  <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 7 }}>
+                    {svc.points.map((p) => (
+                      <li key={p} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <CheckCircle size={13} color={svc.color} style={{ flexShrink: 0 }} />
+                        <span style={{
+                          fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+                          fontSize: 13.5, color: "#3D4F5E",
+                        }}>{p}</span>
                       </li>
                     ))}
                   </ul>
                   <button
-                    onClick={handleContact}
-                    className="flex items-center gap-2 font-bold text-sm transition-all duration-150"
-                    style={{ color: "#E67E22", fontFamily: "'Montserrat', sans-serif" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.gap = "12px")}
-                    onMouseLeave={(e) => (e.currentTarget.style.gap = "8px")}
+                    onClick={() => scrollTo(svc.anchor)}
+                    style={{
+                      marginTop: "auto",
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      width: "100%", padding: "12px 18px",
+                      background: "transparent", border: `2px solid ${svc.color}`,
+                      borderRadius: 4, color: svc.color,
+                      fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 13.5,
+                      cursor: "pointer", transition: "all 160ms ease",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = svc.color; e.currentTarget.style.color = "white"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = svc.color; }}
                   >
-                    {card.cta} <ArrowRight size={16} />
+                    {svc.cta}
+                    <ArrowRight size={15} />
                   </button>
                 </div>
               </div>

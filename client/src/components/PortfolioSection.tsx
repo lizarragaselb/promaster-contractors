@@ -1,23 +1,43 @@
 /**
  * PortfolioSection — Pro Master Contractors
- * Before/After slider pairs for Carpet, Water Damage, Remodeling
+ * Before/After slider cards. Cream background. Playfair + DM Sans. Navy + Emerald.
  */
 import { useState, useRef, useCallback } from "react";
+import type { Lang } from "@/pages/Home";
 
-const CARPET_AFTER = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/carpet_cleaning-gJUZZXkuxC626WMWf4iEN7.webp";
-const WATER_AFTER = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/water_damage-VyDWjZRQNC5p8F45PLtfSw.webp";
-const REMODEL_AFTER = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/remodeling-PqDZWz3PbTyqkWhV2rQECi.webp";
+// Use CDN images already uploaded — "before" uses grayscale filter for effect
+const CARPET_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/carpet_premium-HgHpcsxaZS2rEFX4iViYhF.webp";
+const WATER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/water_premium-kgrC2mUda8ijx3pyug5jZs.webp";
+const REMODEL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/remodel_premium-SeFGZWU6ym42djYpnzqELJ.webp";
 
-// Use same images with CSS filter for "before" effect
-const PAIRS = [
-  { before: CARPET_AFTER, after: CARPET_AFTER, label_en: "Carpet Restoration", label_es: "Restauración de Alfombra" },
-  { before: WATER_AFTER, after: WATER_AFTER, label_en: "Water Damage Repair", label_es: "Reparación de Daño por Agua" },
-  { before: REMODEL_AFTER, after: REMODEL_AFTER, label_en: "Interior Remodeling", label_es: "Remodelación Interior" },
+const PROJECTS = [
+  { img: WATER_IMG, label_en: "Water Damage Restoration", label_es: "Restauración por Daño de Agua" },
+  { img: CARPET_IMG, label_en: "Carpet Deep Cleaning", label_es: "Limpieza Profunda de Alfombra" },
+  { img: REMODEL_IMG, label_en: "Interior Remodeling", label_es: "Remodelación Interior" },
 ];
 
-interface PortfolioProps { lang: "en" | "es"; }
+const COPY = {
+  en: {
+    label: "Our Work",
+    title: "Results That\nSpeak for Themselves.",
+    sub: "Drag the slider to see the transformation. Every project is a promise kept.",
+    dragHint: "Drag to compare",
+    ctaText: "Ready to transform your space? Get a free estimate today.",
+    cta: "Request Free Estimate",
+  },
+  es: {
+    label: "Nuestro Trabajo",
+    title: "Resultados que\nHablan por Sí Solos.",
+    sub: "Arrastra el control deslizante para ver la transformación. Cada proyecto es una promesa cumplida.",
+    dragHint: "Arrastra para comparar",
+    ctaText: "¿Listo para transformar tu espacio? Obtén un estimado gratis hoy.",
+    cta: "Solicitar Estimado Gratis",
+  },
+};
 
-function BeforeAfterSlider({ before, after }: { before: string; after: string }) {
+interface PortfolioProps { lang: Lang; }
+
+function BeforeAfterSlider({ img, label }: { img: string; label: string }) {
   const [pos, setPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
@@ -32,8 +52,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
   return (
     <div
       ref={containerRef}
-      className="before-after-container w-full"
-      style={{ height: 280, userSelect: "none" }}
+      style={{ position: "relative", height: 280, userSelect: "none", cursor: "ew-resize", overflow: "hidden" }}
       onMouseDown={(e) => { dragging.current = true; updatePos(e.clientX); }}
       onMouseMove={(e) => { if (dragging.current) updatePos(e.clientX); }}
       onMouseUp={() => { dragging.current = false; }}
@@ -42,117 +61,108 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
       onTouchMove={(e) => { if (dragging.current) updatePos(e.touches[0].clientX); }}
       onTouchEnd={() => { dragging.current = false; }}
     >
-      {/* After image (full) */}
-      <img
-        src={after}
-        alt="After"
-        className="absolute inset-0 w-full h-full object-cover"
-        draggable={false}
-      />
-      {/* Before image (clipped) */}
-      <div
-        className="absolute inset-0 overflow-hidden"
-        style={{ width: `${pos}%` }}
-      >
-        <img
-          src={before}
-          alt="Before"
-          className="absolute inset-0 object-cover"
-          style={{ width: containerRef.current?.offsetWidth || 400, height: "100%", filter: "grayscale(0.8) brightness(0.75)" }}
-          draggable={false}
-        />
-        {/* Before label */}
-        <div
-          className="absolute top-3 left-3 px-2 py-1 rounded text-xs font-black text-white"
-          style={{ backgroundColor: "#C0392B", fontFamily: "'Montserrat', sans-serif" }}
-        >
-          BEFORE
+      {/* After — full color */}
+      <img src={img} alt={`${label} after`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} draggable={false} />
+      {/* Before — grayscale clipped */}
+      <div style={{ position: "absolute", inset: 0, clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+        <img src={img} alt={`${label} before`} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1) brightness(0.7)" }} draggable={false} />
+      </div>
+      {/* Divider */}
+      <div style={{
+        position: "absolute", top: 0, bottom: 0,
+        left: `${pos}%`, transform: "translateX(-50%)",
+        width: 2, background: "white",
+        boxShadow: "0 0 8px rgba(0,0,0,0.4)",
+        pointerEvents: "none",
+      }}>
+        <div style={{
+          position: "absolute", top: "50%", left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 36, height: 36,
+          background: "white", borderRadius: "50%",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 3,
+        }}>
+          <div style={{ width: 2, height: 14, background: "#1A4B84", borderRadius: 2 }} />
+          <div style={{ width: 2, height: 14, background: "#1A4B84", borderRadius: 2 }} />
         </div>
       </div>
-      {/* After label */}
-      <div
-        className="absolute top-3 right-3 px-2 py-1 rounded text-xs font-black text-white"
-        style={{ backgroundColor: "#2E8B57", fontFamily: "'Montserrat', sans-serif" }}
-      >
-        AFTER
-      </div>
-      {/* Slider handle */}
-      <div
-        className="before-after-handle"
-        style={{ left: `${pos}%`, transform: "translateX(-50%)" }}
-      />
+      {/* Labels */}
+      <div style={{
+        position: "absolute", top: 10, left: 10,
+        background: "rgba(11,31,58,0.75)", backdropFilter: "blur(4px)",
+        color: "white", padding: "3px 8px", borderRadius: 3,
+        fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase",
+        pointerEvents: "none",
+      }}>BEFORE</div>
+      <div style={{
+        position: "absolute", top: 10, right: 10,
+        background: "rgba(27,107,58,0.85)", backdropFilter: "blur(4px)",
+        color: "white", padding: "3px 8px", borderRadius: 3,
+        fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase",
+        pointerEvents: "none",
+      }}>AFTER</div>
     </div>
   );
 }
 
 export default function PortfolioSection({ lang }: PortfolioProps) {
+  const c = COPY[lang];
+
+  const scrollTo = (id: string) => {
+    const el = document.querySelector(id);
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
+  };
+
   return (
-    <section id="portfolio" style={{ backgroundColor: "#F4F6F9", padding: "96px 0" }}>
+    <section id="portfolio" style={{ background: "#F8F5EF", padding: "100px 0" }}>
       <div className="container">
         {/* Header */}
-        <div className="text-center mb-16 fade-in-up">
-          <h2
-            className="font-black"
-            style={{ fontSize: "clamp(32px, 4vw, 52px)", color: "#1A4B84", fontFamily: "'Montserrat', sans-serif", marginBottom: 16 }}
-          >
-            {lang === "en" ? "Our Work Speaks for Itself" : "Nuestro Trabajo Habla por Sí Solo"}
-          </h2>
-          <p
-            className="text-lg"
-            style={{ color: "#5D6D7E", fontFamily: "'Montserrat', sans-serif" }}
-          >
-            {lang === "en"
-              ? "Real results from real jobs — drag the slider to see Before & After"
-              : "Resultados reales — arrastra el slider para ver Antes y Después"}
-          </p>
-          <div className="flex justify-center mt-4">
-            <div className="h-1 w-16 rounded-full" style={{ backgroundColor: "#E67E22" }} />
+        <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
+          <h2 style={{
+            fontFamily: "'Playfair Display', serif", fontWeight: 800,
+            fontSize: "clamp(30px, 4vw, 52px)",
+            color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20,
+            whiteSpace: "pre-line",
+          }}>{c.title}</h2>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+            <span className="gold-line" />
           </div>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 16.5, color: "#5A6B7A", lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>{c.sub}</p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {PAIRS.map((pair, i) => (
+        {/* Cards */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28 }}>
+          {PROJECTS.map((p, i) => (
             <div
               key={i}
-              className="fade-in-up bg-white rounded-xl overflow-hidden"
-              style={{ boxShadow: "0 4px 24px rgba(26,75,132,0.08)", animationDelay: `${i * 120}ms` }}
+              className="service-card"
+              style={{
+                background: "white", borderRadius: 8, overflow: "hidden",
+                boxShadow: "0 4px 24px rgba(11,31,58,0.07)",
+                border: "1px solid rgba(11,31,58,0.06)",
+              }}
             >
-              <BeforeAfterSlider before={pair.before} after={pair.after} />
-              <div className="p-4 text-center">
-                <span
-                  className="font-bold text-sm"
-                  style={{ color: "#1A4B84", fontFamily: "'Montserrat', sans-serif" }}
-                >
-                  {lang === "en" ? pair.label_en : pair.label_es}
-                </span>
+              <BeforeAfterSlider img={p.img} label={lang === "en" ? p.label_en : p.label_es} />
+              <div style={{ padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 14, color: "#0B1F3A" }}>
+                  {lang === "en" ? p.label_en : p.label_es}
+                </div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 11, color: "#5A6B7A", letterSpacing: "0.04em" }}>
+                  {c.dragHint} ↔
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-12 fade-in-up">
-          <p
-            className="text-base mb-6"
-            style={{ color: "#5D6D7E", fontFamily: "'Montserrat', sans-serif" }}
-          >
-            {lang === "en"
-              ? "Ready to transform your space? Get a free estimate today."
-              : "¿Listo para transformar tu espacio? Obtén un estimado gratis hoy."}
-          </p>
-          <a
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              const el = document.querySelector("#contact");
-              if (el) { const top = el.getBoundingClientRect().top + window.scrollY - 72; window.scrollTo({ top, behavior: "smooth" }); }
-            }}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded font-bold text-lg text-white btn-orange"
-            style={{ fontFamily: "'Montserrat', sans-serif" }}
-          >
-            {lang === "en" ? "Request Free Estimate →" : "Solicitar Estimado Gratis →"}
-          </a>
+        {/* Bottom CTA */}
+        <div style={{ textAlign: "center", marginTop: 52 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 16, color: "#5A6B7A", marginBottom: 20 }}>{c.ctaText}</p>
+          <button onClick={() => scrollTo("#contact")} className="btn-primary" style={{ fontSize: 15 }}>
+            {c.cta} →
+          </button>
         </div>
       </div>
     </section>
