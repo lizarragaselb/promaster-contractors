@@ -54,7 +54,7 @@ export default function FooterSection({ lang }: FooterProps) {
 
           {/* Brand */}
           <div>
-            <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 800, fontSize: 22, color: "white", marginBottom: 2 }}>Pro Master</div>
+            <div style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 800, fontSize: 22, color: "white", marginBottom: 2 }}>Pro Master</div>
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 11, color: "#22A05A", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16 }}>Contractors</div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: 24, maxWidth: 260 }}>{c.tagline}</p>
             <div style={{ display: "flex", gap: 10 }}>

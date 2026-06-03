@@ -1,7 +1,7 @@
 /**
  * ServicesSection — Pro Master Contractors
  * 3 premium service cards on cream background.
- * Playfair Display headings, DM Sans body. Navy + Emerald palette.
+ * Roboto headings, DM Sans body. Navy + Emerald palette.
  */
 import { Droplets, Layers, Home, CheckCircle, ArrowRight } from "lucide-react";
 import type { Lang } from "@/pages/Home";
@@ -110,7 +110,7 @@ export default function ServicesSection({ lang }: ServicesProps) {
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
           <h2 style={{
-            fontFamily: "'Playfair Display', serif", fontWeight: 800,
+            fontFamily: "'Roboto', sans-serif", fontWeight: 800,
             fontSize: "clamp(30px, 4vw, 52px)",
             color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20,
             whiteSpace: "pre-line",
@@ -174,7 +174,7 @@ export default function ServicesSection({ lang }: ServicesProps) {
                 {/* Body */}
                 <div style={{ padding: "28px 28px 24px", flex: 1, display: "flex", flexDirection: "column" }}>
                   <h3 style={{
-                    fontFamily: "'Playfair Display', serif", fontWeight: 700,
+                    fontFamily: "'Roboto', sans-serif", fontWeight: 700,
                     fontSize: 20, color: "#0B1F3A", marginBottom: 10, lineHeight: 1.25,
                   }}>{svc.title}</h3>
                   <p style={{

@@ -1,6 +1,6 @@
 /**
  * ReviewsSection — Pro Master Contractors
- * White background. 3 testimonial cards + Google badge. Playfair + DM Sans. Navy + Emerald.
+ * White background. 3 testimonial cards + Google badge. Roboto + DM Sans. Navy + Emerald.
  */
 import { Star, Quote } from "lucide-react";
 import type { Lang } from "@/pages/Home";
@@ -35,7 +35,7 @@ export default function ReviewsSection({ lang }: ReviewsProps) {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 800, fontSize: "clamp(30px, 4vw, 52px)", color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20, whiteSpace: "pre-line" }}>{c.title}</h2>
+          <h2 style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 800, fontSize: "clamp(30px, 4vw, 52px)", color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20, whiteSpace: "pre-line" }}>{c.title}</h2>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}><span className="gold-line" /></div>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 16.5, color: "#5A6B7A", lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>{c.sub}</p>
         </div>

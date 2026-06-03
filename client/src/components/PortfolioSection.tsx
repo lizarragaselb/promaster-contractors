@@ -1,6 +1,6 @@
 /**
  * PortfolioSection — Pro Master Contractors
- * Before/After slider cards. Cream background. Playfair + DM Sans. Navy + Emerald.
+ * Before/After slider cards. Cream background. Roboto + DM Sans. Navy + Emerald.
  */
 import { useState, useRef, useCallback } from "react";
 import type { Lang } from "@/pages/Home";
@@ -121,7 +121,7 @@ export default function PortfolioSection({ lang }: PortfolioProps) {
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
           <h2 style={{
-            fontFamily: "'Playfair Display', serif", fontWeight: 800,
+            fontFamily: "'Roboto', sans-serif", fontWeight: 800,
             fontSize: "clamp(30px, 4vw, 52px)",
             color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20,
             whiteSpace: "pre-line",

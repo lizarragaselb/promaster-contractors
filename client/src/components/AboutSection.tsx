@@ -1,6 +1,6 @@
 /**
  * AboutSection — Pro Master Contractors
- * White background. Asymmetric layout. Playfair + DM Sans. Navy + Emerald.
+ * White background. Asymmetric layout. Roboto + DM Sans. Navy + Emerald.
  */
 import { Award, Users, MapPin, ThumbsUp } from "lucide-react";
 import type { Lang } from "@/pages/Home";
@@ -77,7 +77,7 @@ export default function AboutSection({ lang }: AboutProps) {
               boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
               borderLeft: "4px solid #22A05A",
             }}>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 800, fontSize: 28, color: "#22A05A", lineHeight: 1 }}>500+</div>
+              <div style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 800, fontSize: 28, color: "#22A05A", lineHeight: 1 }}>500+</div>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 11, color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 4 }}>Projects Completed</div>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function AboutSection({ lang }: AboutProps) {
           <div>
             <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
             <h2 style={{
-              fontFamily: "'Playfair Display', serif", fontWeight: 800,
+              fontFamily: "'Roboto', sans-serif", fontWeight: 800,
               fontSize: "clamp(28px, 3.5vw, 48px)",
               color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20,
               whiteSpace: "pre-line",

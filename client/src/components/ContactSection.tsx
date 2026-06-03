@@ -1,6 +1,6 @@
 /**
  * ContactSection — Pro Master Contractors
- * Cream background. Left: info + phone. Right: form. Playfair + DM Sans. Navy + Emerald.
+ * Cream background. Left: info + phone. Right: form. Roboto + DM Sans. Navy + Emerald.
  */
 import { useState } from "react";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
@@ -90,7 +90,7 @@ export default function ContactSection({ lang }: ContactProps) {
           {/* Left — Info */}
           <div>
             <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 800, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20, whiteSpace: "pre-line" }}>{c.title}</h2>
+            <h2 style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 800, fontSize: "clamp(28px, 3.5vw, 48px)", color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20, whiteSpace: "pre-line" }}>{c.title}</h2>
             <span className="gold-line" style={{ display: "block", marginBottom: 20 }} />
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 400, fontSize: 16, color: "#5A6B7A", lineHeight: 1.75, marginBottom: 40 }}>{c.sub}</p>
 
@@ -119,7 +119,7 @@ export default function ContactSection({ lang }: ContactProps) {
                 <div style={{ width: 64, height: 64, background: "rgba(27,107,58,0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#1B6B3A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
-                <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: 22, color: "#0B1F3A", marginBottom: 12 }}>{c.success}</h3>
+                <h3 style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 700, fontSize: 22, color: "#0B1F3A", marginBottom: 12 }}>{c.success}</h3>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>

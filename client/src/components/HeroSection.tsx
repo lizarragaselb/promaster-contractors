@@ -1,7 +1,7 @@
 /**
  * HeroSection — Pro Master Contractors
  * Full-viewport hero. Deep navy overlay on premium AI image.
- * Playfair Display headline, DM Sans body. Emerald + Navy CTAs.
+ * Roboto headline, DM Sans body. Emerald + Navy CTAs.
  */
 import { Phone, AlertTriangle, CheckCircle, ChevronDown } from "lucide-react";
 import type { Lang } from "@/pages/Home";
@@ -109,23 +109,23 @@ export default function HeroSection({ lang }: HeroProps) {
             </span>
           </div>
 
-          {/* Headline — Playfair Display */}
+          {/* Headline — Roboto */}
           <h1 className="animate-fade-up" style={{ animationDelay: "80ms", marginBottom: 24 }}>
             <span style={{
               display: "block",
-              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontFamily: "'Roboto', sans-serif", fontWeight: 900,
               fontSize: "clamp(42px, 6.5vw, 80px)",
               color: "white", lineHeight: 1.06,
             }}>{c.headline1}</span>
             <span style={{
               display: "block",
-              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontFamily: "'Roboto', sans-serif", fontWeight: 900,
               fontSize: "clamp(42px, 6.5vw, 80px)",
               color: "#22A05A", lineHeight: 1.06,
             }}>{c.headline2}</span>
             <span style={{
               display: "block",
-              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontFamily: "'Roboto', sans-serif", fontWeight: 900,
               fontSize: "clamp(42px, 6.5vw, 80px)",
               color: "white", lineHeight: 1.06,
             }}>{c.headline3}</span>
@@ -202,7 +202,7 @@ export default function HeroSection({ lang }: HeroProps) {
               }}
             >
               <div style={{
-                fontFamily: "'Playfair Display', serif", fontWeight: 800,
+                fontFamily: "'Roboto', sans-serif", fontWeight: 800,
                 fontSize: "clamp(22px, 3vw, 30px)",
                 color: "#22A05A", lineHeight: 1, marginBottom: 5,
               }}>{s.num}</div>

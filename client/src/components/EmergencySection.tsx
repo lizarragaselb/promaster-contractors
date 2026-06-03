@@ -1,7 +1,7 @@
 /**
  * EmergencySection — Pro Master Contractors
  * Deep navy urgent section. Large phone CTA. Emerald accent.
- * Playfair Display + DM Sans. Navy + Emerald palette.
+ * Roboto + DM Sans. Navy + Emerald palette.
  */
 import { Phone, Clock, Shield, Zap } from "lucide-react";
 import type { Lang } from "@/pages/Home";
@@ -75,7 +75,7 @@ export default function EmergencySection({ lang }: EmergencyProps) {
           <div>
             <span className="section-label" style={{ display: "block", marginBottom: 16, color: "#22A05A" }}>{c.label}</span>
             <h2 style={{
-              fontFamily: "'Playfair Display', serif", fontWeight: 900,
+              fontFamily: "'Roboto', sans-serif", fontWeight: 900,
               fontSize: "clamp(28px, 4vw, 52px)",
               color: "white", lineHeight: 1.1, marginBottom: 24,
               whiteSpace: "pre-line",

@@ -121,7 +121,7 @@ export default function PromoPopup({ lang }: PromoPopupProps) {
 
           {/* Title */}
           <h2 style={{
-            fontFamily: "'Playfair Display', serif", fontWeight: 800,
+            fontFamily: "'Roboto', sans-serif", fontWeight: 800,
             fontSize: "clamp(20px, 4vw, 26px)",
             color: "#0B1F3A", lineHeight: 1.2, marginBottom: 12,
           }}>{c.title}</h2>

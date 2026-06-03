@@ -1,7 +1,7 @@
 /**
  * Home.tsx — Pro Master Contractors
  * Premium single-page website. Navy + Emerald design system.
- * Fonts: Playfair Display (display) + DM Sans (body)
+ * Fonts: Roboto (display) + DM Sans (body)
  */
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
