@@ -63,7 +63,7 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
               style={{ display: "flex", alignItems: "center", background: "none", border: "none", padding: 0, cursor: "pointer" }}
             >
               <img
-                src="/manus-storage/promaster_logo_white_05712234.png"
+                src="/manus-storage/promaster_logo_new_214d985b.png"
                 alt="Pro Master Contractors"
                 style={{ height: 48, width: "auto", objectFit: "contain" }}
               />
