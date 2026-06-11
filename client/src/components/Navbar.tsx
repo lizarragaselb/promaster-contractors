@@ -77,7 +77,7 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
             }}
           >
             <img
-              src="/manus-storage/promaster_logo_new_214d985b.png"
+              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663460319800/iFrgACYRTTGqAJcI.png"
               alt="Pro Master Contractors"
               style={{
                 /* mobile: 140px wide max; desktop: 180px */
