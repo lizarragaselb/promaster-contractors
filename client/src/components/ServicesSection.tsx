@@ -6,10 +6,10 @@
 import { Droplets, Layers, Home, Wind, CheckCircle, ArrowRight } from "lucide-react";
 import type { Lang } from "@/pages/Home";
 
-const WATER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/water_premium-kgrC2mUda8ijx3pyug5jZs.webp";
-const CARPET_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/carpet_premium-HgHpcsxaZS2rEFX4iViYhF.webp";
-const REMODEL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/remodel_premium-SeFGZWU6ym42djYpnzqELJ.webp";
-const AIRDUCT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/airduct_service-T3bH68ySPEd8v25Jg39RLc.webp";
+const WATER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/service_water_damage-GhASdmCZbQyjgJsCfPEHTZ.webp";
+const CARPET_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/service_carpet-YeNo2PnfGfEr2fi8irrRVX.webp";
+const REMODEL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/service_remodeling-KvkWP7GqTCccoh5eFRw45H.webp";
+const AIRDUCT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/service_airduct-iPF6gxUPqUk5jTBRbETxrr.webp";
 
 const COPY = {
   en: {
@@ -178,8 +178,9 @@ export default function ServicesSection({ lang }: ServicesProps) {
                   />
                   <div style={{
                     position: "absolute", inset: 0,
-                    background: "linear-gradient(to bottom, transparent 40%, rgba(11,31,58,0.65) 100%)",
+                    background: "linear-gradient(to bottom, transparent 30%, rgba(11,31,58,0.75) 100%)",
                   }} />
+                  {/* Tag badge top-left */}
                   <div style={{
                     position: "absolute", top: 14, left: 14,
                     background: svc.color, color: "white",
@@ -187,14 +188,23 @@ export default function ServicesSection({ lang }: ServicesProps) {
                     fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 10.5,
                     letterSpacing: "0.08em", textTransform: "uppercase",
                   }}>{svc.tag}</div>
+                  {/* Service name bottom-left */}
+                  <div style={{
+                    position: "absolute", bottom: 14, left: 14,
+                    fontFamily: "'Roboto', sans-serif", fontWeight: 700, fontSize: 14,
+                    color: "white", lineHeight: 1.2,
+                    textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+                    maxWidth: "calc(100% - 70px)",
+                  }}>{svc.title}</div>
+                  {/* Icon bottom-right */}
                   <div style={{
                     position: "absolute", bottom: 14, right: 14,
-                    width: 40, height: 40,
+                    width: 36, height: 36,
                     background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)",
                     borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center",
                     border: "1px solid rgba(255,255,255,0.2)",
                   }}>
-                    <Icon size={20} color="white" />
+                    <Icon size={18} color="white" />
                   </div>
                 </div>
 

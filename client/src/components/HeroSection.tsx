@@ -17,10 +17,10 @@ const COPY = {
     sub: "Professional water damage restoration, carpet cleaning, and complete remodeling services — available 24/7 across the DFW metroplex.",
     cta1: "Get a Free Estimate",
     cta2: "24/7 Emergency Line",
-    trust: ["Licensed & Insured", "Free Estimates", "5-Star Rated", "16+ Years Experience"],
+    trust: ["Free Estimates", "5-Star Rated", "16+ Years Experience"],
     stats: [
       { num: "16+", label: "Years in Business" },
-      { num: "500+", label: "Projects Completed" },
+
       { num: "24/7", label: "Emergency Response" },
       { num: "5★", label: "Google Rating" },
     ],
@@ -33,10 +33,10 @@ const COPY = {
     sub: "Servicios profesionales de restauración por daño de agua, limpieza de alfombras y remodelación completa — disponibles 24/7 en todo DFW.",
     cta1: "Obtener Estimado Gratis",
     cta2: "Línea de Emergencias 24/7",
-    trust: ["Licenciados y Asegurados", "Estimados Gratis", "Calificación 5 Estrellas", "16+ Años de Experiencia"],
+    trust: ["Estimados Gratis", "Calificación 5 Estrellas", "16+ Años de Experiencia"],
     stats: [
       { num: "16+", label: "Años en el Negocio" },
-      { num: "500+", label: "Proyectos Completados" },
+
       { num: "24/7", label: "Respuesta de Emergencia" },
       { num: "5★", label: "Calificación Google" },
     ],

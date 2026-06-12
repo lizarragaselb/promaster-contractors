@@ -7,7 +7,7 @@
 import { CheckCircle, Wind, Flame, ArrowRight } from "lucide-react";
 import type { Lang } from "@/pages/Home";
 
-const AIRDUCT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/airduct_service-T3bH68ySPEd8v25Jg39RLc.webp";
+const AIRDUCT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/service_airduct-iPF6gxUPqUk5jTBRbETxrr.webp";
 
 const COPY = {
   en: {

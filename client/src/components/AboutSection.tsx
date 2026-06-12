@@ -15,7 +15,7 @@ const COPY = {
     body: "We serve homeowners, property managers, HOAs, and multi-family communities across the entire DFW metroplex. Our team of certified technicians brings the same level of care and professionalism to every job — whether it's a single carpet cleaning or a full property renovation.",
     cta: "Get Your Free Estimate",
     pillars: [
-      { icon: Award, title: "Licensed & Insured", desc: "Fully certified in water damage restoration and remodeling" },
+      { icon: Award, title: "16+ Years Experience", desc: "Trusted by homeowners and property managers across DFW" },
       { icon: Users, title: "Expert Team", desc: "Trained, background-checked technicians on every job" },
       { icon: MapPin, title: "Serving All DFW", desc: "Dallas, Fort Worth, Plano, Frisco, Arlington and beyond" },
       { icon: ThumbsUp, title: "Satisfaction Guaranteed", desc: "We don't leave until you're 100% satisfied" },
@@ -28,7 +28,7 @@ const COPY = {
     body: "Servimos a propietarios, administradores de propiedades, HOAs y comunidades multifamiliares en todo el área metropolitana de DFW. Nuestro equipo aporta el mismo nivel de cuidado y profesionalismo en cada trabajo.",
     cta: "Obtener Estimado Gratis",
     pillars: [
-      { icon: Award, title: "Licenciados y Asegurados", desc: "Completamente certificados en restauración y remodelación" },
+      { icon: Award, title: "16+ Años de Experiencia", desc: "De confianza para propietarios y administradores en DFW" },
       { icon: Users, title: "Equipo Experto", desc: "Técnicos capacitados y verificados en cada trabajo" },
       { icon: MapPin, title: "Servimos Todo DFW", desc: "Dallas, Fort Worth, Plano, Frisco, Arlington y más" },
       { icon: ThumbsUp, title: "Satisfacción Garantizada", desc: "No nos vamos hasta que estés 100% satisfecho" },
@@ -77,8 +77,8 @@ export default function AboutSection({ lang }: AboutProps) {
               boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
               borderLeft: "4px solid #22A05A",
             }}>
-              <div style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 800, fontSize: 28, color: "#22A05A", lineHeight: 1 }}>500+</div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 11, color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 4 }}>Projects Completed</div>
+              <div style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 800, fontSize: 28, color: "#22A05A", lineHeight: 1 }}>5★</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 11, color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 4 }}>Google Rating</div>
             </div>
           </div>
 
