@@ -1,14 +1,15 @@
 /**
  * ServicesSection — Pro Master Contractors
- * 3 premium service cards on cream background.
+ * 4 premium service cards on cream background.
  * Roboto headings, DM Sans body. Navy + Emerald palette.
  */
-import { Droplets, Layers, Home, CheckCircle, ArrowRight } from "lucide-react";
+import { Droplets, Layers, Home, Wind, CheckCircle, ArrowRight } from "lucide-react";
 import type { Lang } from "@/pages/Home";
 
 const WATER_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/water_premium-kgrC2mUda8ijx3pyug5jZs.webp";
 const CARPET_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/carpet_premium-HgHpcsxaZS2rEFX4iViYhF.webp";
 const REMODEL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/remodel_premium-SeFGZWU6ym42djYpnzqELJ.webp";
+const AIRDUCT_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/airduct_service-T3bH68ySPEd8v25Jg39RLc.webp";
 
 const COPY = {
   en: {
@@ -47,6 +48,17 @@ const COPY = {
         desc: "Kitchen and bathroom remodels, flooring installation, interior and exterior painting, and full property make-ready services.",
         points: ["Kitchen & Bathroom Remodel", "Flooring Installation", "Interior & Exterior Painting", "Property Make-Ready"],
         cta: "Request a Quote",
+        anchor: "#contact",
+      },
+      {
+        icon: Wind,
+        img: AIRDUCT_IMG,
+        color: "#22A05A",
+        tag: "Home Health",
+        title: "Air Duct & Dryer Vent Cleaning",
+        desc: "Breathe cleaner air and protect your home. We remove dust, allergens, and lint buildup from your HVAC system and dryer vents.",
+        points: ["Air Duct Deep Cleaning", "Dryer Vent Cleaning", "Allergen & Dust Removal", "Fire Hazard Prevention"],
+        cta: "Schedule Service",
         anchor: "#contact",
       },
     ],
@@ -89,6 +101,17 @@ const COPY = {
         cta: "Solicitar Cotización",
         anchor: "#contact",
       },
+      {
+        icon: Wind,
+        img: AIRDUCT_IMG,
+        color: "#22A05A",
+        tag: "Salud del Hogar",
+        title: "Limpieza de Ductos y Secadora",
+        desc: "Respira aire más limpio y protege tu hogar. Eliminamos polvo, alérgenos y pelusa de tu sistema HVAC y ductos de secadora.",
+        points: ["Limpieza Profunda de Ductos", "Limpieza de Ducto de Secadora", "Eliminación de Alérgenos y Polvo", "Prevención de Incendios"],
+        cta: "Programar Servicio",
+        anchor: "#contact",
+      },
     ],
   },
 };
@@ -125,8 +148,12 @@ export default function ServicesSection({ lang }: ServicesProps) {
           }}>{c.sub}</p>
         </div>
 
-        {/* Cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 28 }}>
+        {/* Cards — 4-column grid on large screens */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: 28,
+        }}>
           {c.services.map((svc, i) => {
             const Icon = svc.icon;
             return (
