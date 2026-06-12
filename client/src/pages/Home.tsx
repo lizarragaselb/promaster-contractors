@@ -7,10 +7,11 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
-import EmergencySection from "@/components/EmergencySection";
-import RemodelingSection from "@/components/RemodelingSection";
+import WaterDamageSection from "@/components/WaterDamageSection";
 import CarpetSection from "@/components/CarpetSection";
+import RemodelingSection from "@/components/RemodelingSection";
 import AirDuctSection from "@/components/AirDuctSection";
+import EmergencySection from "@/components/EmergencySection";
 import AboutSection from "@/components/AboutSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -29,6 +30,7 @@ export default function Home() {
       <main>
         <HeroSection lang={lang} />
         <ServicesSection lang={lang} />
+        <WaterDamageSection lang={lang} />
         <CarpetSection lang={lang} />
         <RemodelingSection lang={lang} />
         <AirDuctSection lang={lang} />

@@ -15,13 +15,13 @@ interface NavbarProps {
 
 const SERVICE_ITEMS = {
   en: [
-    { label: "Water Damage & Restoration", anchor: "#emergency", icon: Droplets, color: "#1A4B84" },
+    { label: "Water Damage & Restoration", anchor: "#water", icon: Droplets, color: "#1A4B84" },
     { label: "Professional Carpet Care",   anchor: "#carpet",  icon: Layers,   color: "#1B6B3A" },
     { label: "Interior & Exterior Remodeling", anchor: "#remodeling", icon: Home, color: "#C9A84C" },
     { label: "Air Duct & Dryer Vent Cleaning", anchor: "#airduct", icon: Wind, color: "#22A05A" },
   ],
   es: [
-    { label: "Daño por Agua y Restauración", anchor: "#emergency", icon: Droplets, color: "#1A4B84" },
+    { label: "Daño por Agua y Restauración", anchor: "#water", icon: Droplets, color: "#1A4B84" },
     { label: "Limpieza de Alfombras",         anchor: "#carpet",  icon: Layers,   color: "#1B6B3A" },
     { label: "Remodelación Interior y Exterior", anchor: "#remodeling", icon: Home, color: "#C9A84C" },
     { label: "Limpieza de Ductos y Secadora", anchor: "#airduct", icon: Wind, color: "#22A05A" },
