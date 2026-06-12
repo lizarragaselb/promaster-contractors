@@ -1,10 +1,11 @@
 /**
  * Navbar — Pro Master Contractors
- * Mobile-first: logo left (max-width capped) + hamburger right.
- * Desktop: full nav links + lang toggle + call CTA.
+ * Desktop: Services dropdown with 4 sub-links + rest of nav + lang toggle + CTA.
+ * Mobile: logo + lang + hamburger; drawer with expandable Services sub-menu.
+ * Roboto / DM Sans. Navy #0B1F3A + Emerald #22A05A palette.
  */
-import { useState, useEffect, useCallback } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Menu, X, Phone, ChevronDown, Droplets, Layers, Home, Wind } from "lucide-react";
 import type { Lang } from "@/pages/Home";
 
 interface NavbarProps {
@@ -12,15 +13,33 @@ interface NavbarProps {
   setLang: (l: Lang) => void;
 }
 
-const NAV_LINKS = {
-  en: ["Services", "Emergency", "About", "Portfolio", "Reviews", "Contact"],
-  es: ["Servicios", "Emergencias", "Nosotros", "Portafolio", "Reseñas", "Contacto"],
+const SERVICE_ITEMS = {
+  en: [
+    { label: "Water Damage & Restoration", anchor: "#emergency", icon: Droplets, color: "#1A4B84" },
+    { label: "Professional Carpet Care",   anchor: "#carpet",  icon: Layers,   color: "#1B6B3A" },
+    { label: "Interior & Exterior Remodeling", anchor: "#remodeling", icon: Home, color: "#C9A84C" },
+    { label: "Air Duct & Dryer Vent Cleaning", anchor: "#airduct", icon: Wind, color: "#22A05A" },
+  ],
+  es: [
+    { label: "Daño por Agua y Restauración", anchor: "#emergency", icon: Droplets, color: "#1A4B84" },
+    { label: "Limpieza de Alfombras",         anchor: "#carpet",  icon: Layers,   color: "#1B6B3A" },
+    { label: "Remodelación Interior y Exterior", anchor: "#remodeling", icon: Home, color: "#C9A84C" },
+    { label: "Limpieza de Ductos y Secadora", anchor: "#airduct", icon: Wind, color: "#22A05A" },
+  ],
 };
-const ANCHORS = ["#services", "#emergency", "#about", "#portfolio", "#reviews", "#contact"];
+
+const OTHER_LINKS = {
+  en: ["Emergency", "About", "Portfolio", "Reviews", "Contact"],
+  es: ["Emergencias", "Nosotros", "Portafolio", "Reseñas", "Contacto"],
+};
+const OTHER_ANCHORS = ["#emergency", "#about", "#portfolio", "#reviews", "#contact"];
 
 export default function Navbar({ lang, setLang }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
+  const [mobileOpen, setMobileOpen]   = useState(false);
+  const [dropOpen, setDropOpen]       = useState(false);
+  const [mobileServOpen, setMobileServOpen] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -28,8 +47,20 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
+        setDropOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   const scrollTo = useCallback((href: string) => {
     setMobileOpen(false);
+    setDropOpen(false);
     setTimeout(() => {
       const el = document.querySelector(href);
       if (el) {
@@ -39,7 +70,9 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
     }, 80);
   }, []);
 
-  const links = NAV_LINKS[lang];
+  const services  = SERVICE_ITEMS[lang];
+  const otherLinks = OTHER_LINKS[lang];
+  const servicesLabel = lang === "en" ? "Services" : "Servicios";
 
   return (
     <>
@@ -54,7 +87,6 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
           transition: "background 300ms ease, box-shadow 300ms ease",
         }}
       >
-        {/* ── Inner row ── */}
         <div
           style={{
             maxWidth: 1280,
@@ -67,7 +99,7 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
             gap: 12,
           }}
         >
-          {/* ── Logo ── */}
+          {/* Logo */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             style={{
@@ -80,7 +112,6 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
               src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663460319800/iFrgACYRTTGqAJcI.png"
               alt="Pro Master Contractors"
               style={{
-                /* mobile: 140px wide max; desktop: 180px */
                 width: "clamp(130px, 28vw, 180px)",
                 height: "auto",
                 objectFit: "contain",
@@ -89,15 +120,102 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
             />
           </button>
 
-          {/* ── Desktop nav (hidden on mobile) ── */}
+          {/* Desktop nav */}
           <nav
             className="hidden lg:flex"
             style={{ alignItems: "center", gap: 2, flex: 1, justifyContent: "center" }}
           >
-            {links.map((link, i) => (
+            {/* Services dropdown */}
+            <div ref={dropRef} style={{ position: "relative" }}>
+              <button
+                onClick={() => setDropOpen(!dropOpen)}
+                style={{
+                  background: dropOpen ? "rgba(255,255,255,0.1)" : "none",
+                  border: "none", cursor: "pointer",
+                  fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 13.5,
+                  color: dropOpen ? "white" : "rgba(255,255,255,0.82)",
+                  padding: "6px 13px", borderRadius: 4,
+                  display: "flex", alignItems: "center", gap: 5,
+                  transition: "color 150ms, background 150ms",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "white"; e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
+                onMouseLeave={(e) => {
+                  if (!dropOpen) {
+                    e.currentTarget.style.color = "rgba(255,255,255,0.82)";
+                    e.currentTarget.style.background = "none";
+                  }
+                }}
+              >
+                {servicesLabel}
+                <ChevronDown
+                  size={13}
+                  style={{
+                    transition: "transform 200ms ease",
+                    transform: dropOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                />
+              </button>
+
+              {/* Dropdown panel */}
+              {dropOpen && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "calc(100% + 10px)",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: 280,
+                    background: "rgba(9,24,45,0.98)",
+                    backdropFilter: "blur(20px)",
+                    borderRadius: 8,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    boxShadow: "0 16px 48px rgba(0,0,0,0.4)",
+                    padding: "8px",
+                    zIndex: 100,
+                    animation: "dropFadeIn 150ms ease forwards",
+                  }}
+                >
+                  {services.map((svc) => {
+                    const Icon = svc.icon;
+                    return (
+                      <button
+                        key={svc.anchor}
+                        onClick={() => scrollTo(svc.anchor)}
+                        style={{
+                          display: "flex", alignItems: "center", gap: 12,
+                          width: "100%", padding: "11px 12px",
+                          background: "none", border: "none", cursor: "pointer",
+                          borderRadius: 6,
+                          transition: "background 130ms",
+                          textAlign: "left",
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = "none"; }}
+                      >
+                        <div style={{
+                          width: 32, height: 32, borderRadius: 6, flexShrink: 0,
+                          background: `${svc.color}22`,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                        }}>
+                          <Icon size={15} color={svc.color} />
+                        </div>
+                        <span style={{
+                          fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 13,
+                          color: "rgba(255,255,255,0.88)", lineHeight: 1.3,
+                        }}>{svc.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Other nav links */}
+            {otherLinks.map((link, i) => (
               <button
                 key={link}
-                onClick={() => scrollTo(ANCHORS[i])}
+                onClick={() => scrollTo(OTHER_ANCHORS[i])}
                 style={{
                   background: "none", border: "none", cursor: "pointer",
                   fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 13.5,
@@ -114,7 +232,7 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
             ))}
           </nav>
 
-          {/* ── Desktop right actions ── */}
+          {/* Desktop right actions */}
           <div className="hidden lg:flex" style={{ alignItems: "center", gap: 8, flexShrink: 0 }}>
             <div style={{ display: "flex", background: "rgba(255,255,255,0.1)", borderRadius: 20, padding: 2 }}>
               {(["en", "es"] as Lang[]).map((l) => (
@@ -145,12 +263,8 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
             </a>
           </div>
 
-          {/* ── Mobile right: lang pill + hamburger ── */}
-          <div
-            className="flex lg:hidden"
-            style={{ alignItems: "center", gap: 6, flexShrink: 0 }}
-          >
-            {/* Lang toggle */}
+          {/* Mobile right: lang pill + hamburger */}
+          <div className="flex lg:hidden" style={{ alignItems: "center", gap: 6, flexShrink: 0 }}>
             <div style={{ display: "flex", background: "rgba(255,255,255,0.12)", borderRadius: 20, padding: "2px" }}>
               {(["en", "es"] as Lang[]).map((l) => (
                 <button
@@ -170,8 +284,6 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
                 </button>
               ))}
             </div>
-
-            {/* Hamburger button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -192,7 +304,7 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
         </div>
       </header>
 
-      {/* ── Mobile full-screen drawer ── */}
+      {/* Mobile drawer */}
       <div
         style={{
           position: "fixed",
@@ -204,14 +316,86 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
           transition: "transform 300ms cubic-bezier(0.23,1,0.32,1)",
           borderBottom: "1px solid rgba(74,222,128,0.15)",
           paddingBottom: 24,
+          maxHeight: "calc(100vh - 80px)",
+          overflowY: "auto",
         }}
       >
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "8px 20px 0" }}>
           <nav style={{ display: "flex", flexDirection: "column" }}>
-            {links.map((link, i) => (
+
+            {/* Services expandable */}
+            <div>
+              <button
+                onClick={() => setMobileServOpen(!mobileServOpen)}
+                style={{
+                  background: "none", border: "none", cursor: "pointer",
+                  fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 17,
+                  color: "rgba(255,255,255,0.88)",
+                  padding: "15px 0", textAlign: "left",
+                  borderBottom: mobileServOpen ? "none" : "1px solid rgba(255,255,255,0.06)",
+                  transition: "color 150ms",
+                  width: "100%",
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                }}
+              >
+                {servicesLabel}
+                <ChevronDown
+                  size={16}
+                  color="rgba(255,255,255,0.6)"
+                  style={{
+                    transition: "transform 200ms ease",
+                    transform: mobileServOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                />
+              </button>
+
+              {/* Sub-items */}
+              {mobileServOpen && (
+                <div style={{
+                  paddingLeft: 12,
+                  paddingBottom: 8,
+                  borderBottom: "1px solid rgba(255,255,255,0.06)",
+                }}>
+                  {services.map((svc) => {
+                    const Icon = svc.icon;
+                    return (
+                      <button
+                        key={svc.anchor}
+                        onClick={() => scrollTo(svc.anchor)}
+                        style={{
+                          display: "flex", alignItems: "center", gap: 12,
+                          width: "100%", padding: "12px 8px",
+                          background: "none", border: "none", cursor: "pointer",
+                          borderRadius: 6,
+                          transition: "background 130ms",
+                          textAlign: "left",
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = "none"; }}
+                      >
+                        <div style={{
+                          width: 30, height: 30, borderRadius: 6, flexShrink: 0,
+                          background: `${svc.color}22`,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                        }}>
+                          <Icon size={14} color={svc.color} />
+                        </div>
+                        <span style={{
+                          fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 14.5,
+                          color: "rgba(255,255,255,0.78)", lineHeight: 1.3,
+                        }}>{svc.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Other links */}
+            {otherLinks.map((link, i) => (
               <button
                 key={link}
-                onClick={() => scrollTo(ANCHORS[i])}
+                onClick={() => scrollTo(OTHER_ANCHORS[i])}
                 style={{
                   background: "none", border: "none", cursor: "pointer",
                   fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 17,
@@ -246,6 +430,14 @@ export default function Navbar({ lang, setLang }: NavbarProps) {
           </a>
         </div>
       </div>
+
+      {/* Dropdown animation */}
+      <style>{`
+        @keyframes dropFadeIn {
+          from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+      `}</style>
     </>
   );
 }

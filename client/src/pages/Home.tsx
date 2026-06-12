@@ -9,6 +9,7 @@ import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
 import EmergencySection from "@/components/EmergencySection";
 import RemodelingSection from "@/components/RemodelingSection";
+import CarpetSection from "@/components/CarpetSection";
 import AirDuctSection from "@/components/AirDuctSection";
 import AboutSection from "@/components/AboutSection";
 import PortfolioSection from "@/components/PortfolioSection";
@@ -28,6 +29,7 @@ export default function Home() {
       <main>
         <HeroSection lang={lang} />
         <ServicesSection lang={lang} />
+        <CarpetSection lang={lang} />
         <RemodelingSection lang={lang} />
         <AirDuctSection lang={lang} />
         <EmergencySection lang={lang} />
