@@ -177,42 +177,7 @@ export default function HeroSection({ lang }: HeroProps) {
           </div>
         </div>
 
-        {/* Stats bar */}
-        <div
-          className="animate-fade-up"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            marginTop: 64,
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: 6,
-            overflow: "hidden",
-            maxWidth: 660,
-            animationDelay: "360ms",
-          }}
-        >
-          {c.stats.map((s, i) => (
-            <div
-              key={i}
-              style={{
-                padding: "20px 12px",
-                textAlign: "center",
-                borderRight: i < 3 ? "1px solid rgba(255,255,255,0.07)" : "none",
-              }}
-            >
-              <div style={{
-                fontFamily: "'Roboto', sans-serif", fontWeight: 800,
-                fontSize: "clamp(22px, 3vw, 30px)",
-                color: "#22A05A", lineHeight: 1, marginBottom: 5,
-              }}>{s.num}</div>
-              <div style={{
-                fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
-                fontSize: 11, color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em",
-              }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
 
       {/* Scroll cue */}

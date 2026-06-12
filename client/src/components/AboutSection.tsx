@@ -70,16 +70,7 @@ export default function AboutSection({ lang }: AboutProps) {
                 boxShadow: "0 24px 64px rgba(11,31,58,0.18)",
               }}
             />
-            {/* Badge */}
-            <div style={{
-              position: "absolute", bottom: 24, right: -16, zIndex: 2,
-              background: "#0B1F3A", padding: "16px 20px", borderRadius: 6,
-              boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-              borderLeft: "4px solid #22A05A",
-            }}>
-              <div style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 800, fontSize: 28, color: "#22A05A", lineHeight: 1 }}>5★</div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 11, color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 4 }}>Google Rating</div>
-            </div>
+
           </div>
 
           {/* Right — Content */}
