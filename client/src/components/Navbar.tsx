@@ -29,8 +29,8 @@ const SERVICE_ITEMS = {
 };
 
 const OTHER_LINKS = {
-  en: ["Emergency", "About", "Portfolio", "Reviews", "Contact"],
-  es: ["Emergencias", "Nosotros", "Portafolio", "Reseñas", "Contacto"],
+  en: ["Emergency", "About", "Our Work", "Reviews", "Contact"],
+  es: ["Emergencias", "Nosotros", "Nuestro Trabajo", "Reseñas", "Contacto"],
 };
 const OTHER_ANCHORS = ["#emergency", "#about", "#portfolio", "#reviews", "#contact"];
 
