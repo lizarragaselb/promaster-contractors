@@ -1,14 +1,25 @@
 /**
  * PortfolioSection — Pro Master Contractors
- * Masonry photo gallery with category filter tabs + lightbox.
- * TO REPLACE WITH REAL CLIENT PHOTOS: update the `src` URLs in the PHOTOS array below.
+ * Clean masonry gallery — no filter tabs, just a service badge on each photo.
+ * TO REPLACE WITH REAL CLIENT PHOTOS: update the `src` URLs in the PHOTOS array.
  * Cream background, navy + emerald palette. Roboto headings, DM Sans body.
  */
 import { useState } from "react";
 import { X, ZoomIn } from "lucide-react";
 import type { Lang } from "@/pages/Home";
 
-// ─── PHOTOS — Replace src with real client photos when available ──────────────
+const BADGE_COLORS: Record<string, string> = {
+  water:   "#1A4B84",
+  carpet:  "#1B6B3A",
+  remodel: "#7A4F1E",
+  airduct: "#2E5F6E",
+};
+
+const BADGE_LABELS = {
+  en: { water: "Water Damage", carpet: "Carpet Care", remodel: "Remodeling", airduct: "Air Ducts" },
+  es: { water: "Daño por Agua", carpet: "Alfombras", remodel: "Remodelación", airduct: "Ductos" },
+};
+
 const PHOTOS = [
   {
     id: 1, cat: "water",
@@ -48,43 +59,26 @@ const PHOTOS = [
   {
     id: 8, cat: "remodel",
     src: "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/portfolio_remodel3-C9Q4bm6HY6evNo4vs5gEsU.webp",
-    caption: { en: "LVP Flooring Installation — Open Concept", es: "Instalación de Piso LVP — Concepto Abierto" },
+    caption: { en: "LVP Flooring — Open Concept", es: "Piso LVP — Concepto Abierto" },
   },
   {
     id: 9, cat: "airduct",
     src: "https://d2xsxph8kpxj0f.cloudfront.net/310519663460319800/joEZAhNjB3mNEDWkdEhYv4/portfolio_airduct2-5Zt8v29fHdqesiZBbgBG9a.webp",
-    caption: { en: "Clean HVAC Ductwork — After Service", es: "Ductos Limpios — Después del Servicio" },
+    caption: { en: "Clean HVAC Ductwork", es: "Ductos Limpios" },
   },
 ];
-
-const FILTERS = {
-  en: [
-    { key: "all",     label: "All Projects" },
-    { key: "water",   label: "Water Damage" },
-    { key: "carpet",  label: "Carpet Care" },
-    { key: "remodel", label: "Remodeling" },
-    { key: "airduct", label: "Air Ducts" },
-  ],
-  es: [
-    { key: "all",     label: "Todos" },
-    { key: "water",   label: "Daño por Agua" },
-    { key: "carpet",  label: "Alfombras" },
-    { key: "remodel", label: "Remodelación" },
-    { key: "airduct", label: "Ductos" },
-  ],
-};
 
 const COPY = {
   en: {
     label: "Our Work",
-    title: "Real Projects.\nReal Results.",
-    sub: "Every photo is a job completed by our team. When you hire Pro Master, this is the quality you can expect.",
+    title: "Real Projects. Real Results.",
+    sub: "Every photo is a job completed by our team — this is the quality you can expect.",
     cta: "Request a Free Estimate",
   },
   es: {
     label: "Nuestro Trabajo",
-    title: "Proyectos Reales.\nResultados Reales.",
-    sub: "Cada foto es un trabajo completado por nuestro equipo. Cuando contratas a Pro Master, esta es la calidad que puedes esperar.",
+    title: "Proyectos Reales. Resultados Reales.",
+    sub: "Cada foto es un trabajo completado por nuestro equipo — esta es la calidad que puedes esperar.",
     cta: "Solicitar Estimado Gratis",
   },
 };
@@ -93,13 +87,7 @@ interface PortfolioProps { lang: Lang; }
 
 export default function PortfolioSection({ lang }: PortfolioProps) {
   const c = COPY[lang];
-  const filters = FILTERS[lang];
-  const [activeFilter, setActiveFilter] = useState("all");
   const [lightbox, setLightbox] = useState<typeof PHOTOS[0] | null>(null);
-
-  const visible = activeFilter === "all"
-    ? PHOTOS
-    : PHOTOS.filter((p) => p.cat === activeFilter);
 
   const scrollTo = (anchor: string) => {
     const el = document.querySelector(anchor);
@@ -107,117 +95,83 @@ export default function PortfolioSection({ lang }: PortfolioProps) {
   };
 
   return (
-    <section id="portfolio" style={{ backgroundColor: "#F8F5EF", padding: "100px 0" }}>
+    <section id="portfolio" style={{ backgroundColor: "#F8F5EF", padding: "80px 0" }}>
       <div className="container">
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <span className="section-label" style={{ display: "block", marginBottom: 14 }}>{c.label}</span>
+        {/* Header — compact */}
+        <div style={{ textAlign: "center", marginBottom: 44 }}>
+          <span className="section-label" style={{ display: "block", marginBottom: 12 }}>{c.label}</span>
           <h2 style={{
             fontFamily: "'Roboto', sans-serif", fontWeight: 800,
-            fontSize: "clamp(28px, 4vw, 50px)",
-            color: "#0B1F3A", lineHeight: 1.15, marginBottom: 20,
-            whiteSpace: "pre-line",
+            fontSize: "clamp(26px, 3.5vw, 44px)",
+            color: "#0B1F3A", lineHeight: 1.2, marginBottom: 16,
           }}>{c.title}</h2>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
             <span className="gold-line" />
           </div>
           <p style={{
             fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
-            fontSize: 16, color: "#5A6B7A", lineHeight: 1.7,
-            maxWidth: 520, margin: "0 auto",
+            fontSize: 15.5, color: "#5A6B7A", lineHeight: 1.65,
+            maxWidth: 480, margin: "0 auto",
           }}>{c.sub}</p>
         </div>
 
-        {/* Filter tabs */}
-        <div style={{
-          display: "flex", flexWrap: "wrap", justifyContent: "center",
-          gap: 10, marginBottom: 48,
-        }}>
-          {filters.map((f) => {
-            const isActive = activeFilter === f.key;
-            return (
-              <button
-                key={f.key}
-                onClick={() => setActiveFilter(f.key)}
-                style={{
-                  padding: "9px 20px",
-                  borderRadius: 4,
-                  border: isActive ? "2px solid #1B6B3A" : "2px solid rgba(11,31,58,0.12)",
-                  background: isActive ? "#1B6B3A" : "white",
-                  color: isActive ? "white" : "#3D4F5E",
-                  fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 13.5,
-                  cursor: "pointer",
-                  transition: "all 180ms ease",
-                  transform: "scale(1)",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.borderColor = "#1B6B3A";
-                    e.currentTarget.style.color = "#1B6B3A";
-                  }
-                  e.currentTarget.style.transform = "scale(0.97)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.borderColor = "rgba(11,31,58,0.12)";
-                    e.currentTarget.style.color = "#3D4F5E";
-                  }
-                  e.currentTarget.style.transform = "scale(1)";
-                }}
-              >
-                {f.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Masonry grid */}
-        <div style={{ columns: "3 260px", columnGap: 16 }}>
-          {visible.map((photo) => (
+        {/* Masonry grid — 3 columns, no filters */}
+        <div style={{ columns: "3 240px", columnGap: 14 }}>
+          {PHOTOS.map((photo) => (
             <div
               key={photo.id}
               onClick={() => setLightbox(photo)}
               className="gallery-item"
               style={{
                 breakInside: "avoid",
-                marginBottom: 16,
-                borderRadius: 8,
+                marginBottom: 14,
+                borderRadius: 6,
                 overflow: "hidden",
                 position: "relative",
                 cursor: "zoom-in",
-                boxShadow: "0 4px 20px rgba(11,31,58,0.08)",
-                display: "block",
-                background: "#e5e0d8",
+                boxShadow: "0 3px 16px rgba(11,31,58,0.08)",
+                background: "#ddd",
               }}
             >
               <img
                 src={photo.src}
                 alt={photo.caption[lang]}
-                style={{
-                  width: "100%", display: "block",
-                  transition: "transform 400ms cubic-bezier(0.23,1,0.32,1)",
-                }}
                 className="gallery-img"
+                style={{ width: "100%", display: "block", transition: "transform 380ms cubic-bezier(0.23,1,0.32,1)" }}
               />
-              {/* Caption overlay on hover */}
+
+              {/* Service badge — always visible, top-left */}
+              <div style={{
+                position: "absolute", top: 10, left: 10,
+                background: BADGE_COLORS[photo.cat],
+                color: "white",
+                fontFamily: "'DM Sans', sans-serif", fontWeight: 700,
+                fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase",
+                padding: "4px 9px", borderRadius: 3,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+              }}>
+                {BADGE_LABELS[lang][photo.cat as keyof typeof BADGE_LABELS.en]}
+              </div>
+
+              {/* Zoom icon + caption on hover */}
               <div
                 className="gallery-overlay"
                 style={{
                   position: "absolute", inset: 0,
-                  background: "linear-gradient(to top, rgba(11,31,58,0.78) 0%, transparent 55%)",
+                  background: "linear-gradient(to top, rgba(11,31,58,0.72) 0%, transparent 52%)",
                   opacity: 0,
-                  transition: "opacity 250ms ease",
+                  transition: "opacity 220ms ease",
                   display: "flex", alignItems: "flex-end",
-                  padding: "16px",
+                  padding: "14px",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
                   <span style={{
                     fontFamily: "'DM Sans', sans-serif", fontWeight: 600,
-                    fontSize: 13, color: "white",
+                    fontSize: 12.5, color: "white",
                   }}>{photo.caption[lang]}</span>
-                  <ZoomIn size={18} color="white" style={{ flexShrink: 0, marginLeft: 8 }} />
+                  <ZoomIn size={16} color="white" style={{ flexShrink: 0, marginLeft: 8 }} />
                 </div>
               </div>
             </div>
@@ -225,11 +179,11 @@ export default function PortfolioSection({ lang }: PortfolioProps) {
         </div>
 
         {/* CTA */}
-        <div style={{ textAlign: "center", marginTop: 56 }}>
+        <div style={{ textAlign: "center", marginTop: 44 }}>
           <button
             onClick={() => scrollTo("#contact")}
             className="btn-emerald"
-            style={{ fontSize: 15, padding: "14px 32px" }}
+            style={{ fontSize: 15, padding: "13px 30px" }}
           >
             {c.cta}
           </button>
@@ -245,7 +199,7 @@ export default function PortfolioSection({ lang }: PortfolioProps) {
             background: "rgba(7,22,40,0.95)",
             display: "flex", alignItems: "center", justifyContent: "center",
             padding: 24,
-            animation: "fadeInLb 200ms ease",
+            animation: "fadeInLb 180ms ease",
           }}
         >
           <button
@@ -253,7 +207,7 @@ export default function PortfolioSection({ lang }: PortfolioProps) {
             style={{
               position: "absolute", top: 20, right: 20,
               background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)",
-              borderRadius: "50%", width: 44, height: 44,
+              borderRadius: "50%", width: 42, height: 42,
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer", color: "white",
               transition: "background 160ms ease",
@@ -261,34 +215,42 @@ export default function PortfolioSection({ lang }: PortfolioProps) {
             onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.2)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.1)")}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
-          <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: 900, width: "100%" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: 860, width: "100%" }}>
             <img
               src={lightbox.src}
               alt={lightbox.caption[lang]}
               style={{
                 width: "100%", maxHeight: "80vh",
-                objectFit: "contain", borderRadius: 8,
+                objectFit: "contain", borderRadius: 6,
                 boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
               }}
             />
-            <p style={{
-              fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
-              fontSize: 14, color: "rgba(255,255,255,0.6)",
-              textAlign: "center", marginTop: 16,
-            }}>{lightbox.caption[lang]}</p>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 14 }}>
+              <span style={{
+                background: BADGE_COLORS[lightbox.cat],
+                color: "white",
+                fontFamily: "'DM Sans', sans-serif", fontWeight: 700,
+                fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase",
+                padding: "3px 8px", borderRadius: 3,
+              }}>
+                {BADGE_LABELS[lang][lightbox.cat as keyof typeof BADGE_LABELS.en]}
+              </span>
+              <p style={{
+                fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+                fontSize: 13.5, color: "rgba(255,255,255,0.6)",
+                margin: 0,
+              }}>{lightbox.caption[lang]}</p>
+            </div>
           </div>
         </div>
       )}
 
       <style>{`
-        .gallery-item:hover .gallery-img { transform: scale(1.04); }
+        .gallery-item:hover .gallery-img { transform: scale(1.05); }
         .gallery-item:hover .gallery-overlay { opacity: 1 !important; }
         @keyframes fadeInLb { from { opacity: 0 } to { opacity: 1 } }
-        @media (max-width: 640px) {
-          .gallery-masonry { columns: 2 200px !important; }
-        }
       `}</style>
     </section>
   );
